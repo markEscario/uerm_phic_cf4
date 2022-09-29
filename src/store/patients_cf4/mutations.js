@@ -10,6 +10,9 @@ export function setSearchedPatients(state, searchedPatients) {
 export function setPatientDetails(state, patientDetails) {
   state.patientDetails = patientDetails
 }
+export function setPatientDiagnosis(state, patientDiagnosis) {
+  state.patientDiagnosis = patientDiagnosis
+}
 export function setPatientEncoders(state, patientEncoders) {
   state.patientEncoders = patientEncoders
 }

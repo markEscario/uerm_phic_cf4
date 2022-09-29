@@ -1,10 +1,12 @@
 <template>
-  <AdmittingDiagnosisDialog :AdModal="adModal" :AdData="patientsInfo" @close="closeAdDiagnosisDialog"
+  <AdmittingDiagnosisDialog :AdModal="adModal" :vData="adDiagnosis" :AdData="patientsInfo"
+    :PAdDiagnosis="patientAdDiagnosis" :DTitle="dialogTitle" @close="closeAdDiagnosisDialog"
     @hide="closeAdDiagnosisDialog" />
+
   <div class="q-pa-md" style="max-width: 1940px">
     <q-banner dense inline-actions class="text-white bg-grey">
       <label class="text-h6">
-        {{ patientDetails.LASTNAME }}, {{ patientDetails.FIRSTNAME }} {{ patientDetails.LASTNAME }} - {{
+        {{ patientDetails.LASTNAME }}, {{ patientDetails.FIRSTNAME }} {{ patientDetails.MIDDLENAME }} - {{
         Array.isArray(patientDetails.PATIENTNO) ? patientDetails.PATIENTNO[0] : patientDetails.PATIENTNO }}
       </label>
 
@@ -26,7 +28,6 @@
         <q-btn class="q-mr-sm" outline rounded color="primary" label="DRUGS AND MEDICINES" size="sm" />
         <q-btn class="q-mr-sm" outline rounded color="primary" label="OUTCOME OF TREATMENT" size="sm" />
       </div>
-
     </div>
     <q-space class="q-pa-sm" />
 
@@ -99,17 +100,17 @@
                   <div class="col-md-3">
                     {{ patientDetails.LASTNAME }}
                     <q-space />
-                    <label class="text-caption">LASTNAME</label>
+                    <label class="text-caption text-weight-bold">LASTNAME</label>
                   </div>
                   <div class="col-md-3">
                     {{ patientDetails.FIRSTNAME }}
                     <q-space />
-                    <label class="text-caption">FIRSTNAME</label>
+                    <label class="text-caption text-weight-bold">FIRSTNAME</label>
                   </div>
                   <div class="col-md-3">
                     {{ patientDetails.MIDDLENAME }}
                     <q-space />
-                    <label class="text-caption">MIDDLENAME</label>
+                    <label class="text-caption text-weight-bold">MIDDLENAME</label>
                   </div>
                 </div>
 
@@ -146,7 +147,7 @@
 
             <div class="row">
               <div class="col-md-3">
-                <label class="text-weight-bold">5. CHIEF COMPLAINT</label>
+                <label class="text-weight-bold">5. Chief Complaint</label>
                 <q-space />
                 {{ patientDetails.CC }}
               </div>
@@ -156,26 +157,30 @@
               <div class="col-md-4">
                 <label class="text-weight-bold">6. Admitting Diagnosis</label>
                 <q-space />
-                G3P1(1011)PREGNANCY UTERINE 35 3/7 WEEKS AOG BY2ND TRIMESTER ULTRASOUND THREATENED PRE
-                TERM LABOR GESTATIONAL DIABETES MELLITUS INSULIN CONTROLLED,POLUHYDRAMNIOS,
-                GESTATIONAL HYPERTENTION, ADVANCED MATERNAL AGE WITH 1 PREVIOUS CESAREAN
-                SECTION FOR LOSSING MATERNAL CONDITION
+                <div v-for="diagnosis in patientAdDiagnosis" :key="diagnosis">
+                  {{ diagnosis.AD_DIAGNOSIS }}
+                </div>
               </div>
               <div class="col-md-4">
                 <label class="text-weight-bold">7. Discharge Diagnosis</label>
                 <q-space />
-                G3P1(1011)PREGNANCY UTERINE 35 3/7 WEEKS AOG BY2ND TRIMESTER ULTRASOUND THREATENED PRE
-                TERM LABOR GESTATIONAL DIABETES MELLITUS INSULIN CONTROLLED,POLUHYDRAMNIOS,
-                GESTATIONAL HYPERTENTION, ADVANCED MATERNAL AGE WITH 1 PREVIOUS CESAREAN
-                SECTION FOR LOSSING MATERNAL CONDITION
+                <div v-for="diagnosis in patientAdDiagnosis" :key="diagnosis">
+                  {{ diagnosis.DIS_DIAGNOSIS }}
+                </div>
               </div>
               <div class="col-md-2">
                 <label class="text-weight-bold">8 a. 1st Case Rate Code </label>
                 <q-space />
+                <div v-for="diagnosis in patientAdDiagnosis" :key="diagnosis">
+                  {{ diagnosis.AFIRST_CASE_RATE }}
+                </div>
               </div>
               <div class="col-md-2">
                 <label class="text-weight-bold">8 a. 2nd Case Rate Code </label>
                 <q-space />
+                <div v-for="diagnosis in patientAdDiagnosis" :key="diagnosis">
+                  {{ diagnosis.ASECOND_CASE_RATE }}
+                </div>
               </div>
 
             </div>
@@ -368,38 +373,25 @@ import AdmittingDiagnosisDialog from 'components/AdmittingDiagnosisDialog.vue'
 
 export default defineComponent({
   name: 'patientCf4',
-  props: ['plan'],
   components: {
     AdmittingDiagnosisDialog
-  },
-  setup() {
-    const $q = useQuasar()
-    return {
-      triggerPositive() {
-        $q.notify({
-          type: 'positive',
-          message: 'Your inputs was submitted'
-        })
-      },
-      triggerInfo() {
-        $q.notify({
-          type: 'info',
-          message: 'Your inputs was updated'
-        })
-      },
-      triggerNegative() {
-        $q.notify({
-          type: 'negative',
-          message: 'Your inputs was deleted'
-        })
-      }
-    }
   },
   data() {
     return {
       moment,
+      dialogTitle: '',
       adModal: false,
       patientsInfo: {},
+      patientAdDiagnosis: [],
+      adDiagnosis: {
+        patient_no: '',
+        case_no: '',
+        admitting_diagnosis: '',
+        discharge_diagnosis: '',
+        a_first_case_rate: '',
+        a_second_case_rate: '',
+        ad_status: ''
+      },
       nameOfHci: CONSTANTS.NAME_OF_HCI,
       accreditationNo: CONSTANTS.ACCREDITATION_NO,
       addressOfHci: CONSTANTS.ADDRESS_OF_HCI,
@@ -411,42 +403,33 @@ export default defineComponent({
       employees: 'patientsCf4/patients',
       searchStatus: 'patientsCf4/searchStatus',
       patientDetails: 'patientsCf4/patientDetails',
+      patientDiagnosis: 'patientsCf4/patientDiagnosis',
       searchedPatients: 'patientsCf4/searchedPatients',
       encoders: 'patientsCf4/encoders'
     })
   },
   created() {
     this.fetchPatientData()
-    this.getEncoders()
+    this.getAdDiagnosisEntries()
   },
-
   methods: {
     async fetchPatientData() {
-      console.log('pNo: ', this.$route.query.pNo)
       const result = await this.$store.dispatch('patientsCf4/getPatientDetails', this.$route.query.pNo)
-      console.log('pInfo: ', result)
-    },
-    async getEncoders() {
-      console.log('emp code: ', this.patientDetails.ENCODED_BY)
-      let data = {
-        empCode: this.patientDetails.ENCODED_BY
-      }
-      const result = await this.$store.dispatch('patientsCf4/getEncoders', data)
-    },
-    async admittingDiagnosis(patientNo) {
-      await this.$router.push({ path: 'admitting_diagnosis', query: { pNo: patientNo } })
     },
     openAdmittingDiagnosis(pInfo) {
-      console.log('P Info for Modal: ', pInfo)
+      this.dialogTitle = CONSTANTS.AD_DIALOG_LABEL
       this.adModal = true
       this.patientsInfo = pInfo
     },
+    async getAdDiagnosisEntries() {
+      const result = await this.$store.dispatch('patientsCf4/getAdDiagnosisEntries', this.$route.query.pNo)
+      this.patientAdDiagnosis = this.patientDiagnosis
+    },
     closeAdDiagnosisDialog() {
       this.adModal = false
-    },
-
+      this.adDiagnosis = {}
+    }
   }
-
 
 }) 
 </script>

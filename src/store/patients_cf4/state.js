@@ -8,6 +8,7 @@ export default function () {
     patients: [],
     searchedPatients: [],
     patientDetails: {},
+    patientDiagnosis: [],
     patientEncoders: {},
     isLogged: false,
     profileData: {},

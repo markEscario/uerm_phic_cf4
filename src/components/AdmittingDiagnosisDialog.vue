@@ -1,20 +1,29 @@
 <template>
+  <EditAdDiagnosisDialog :EditAdModal="editAdModal" :PtInfo="patientInfo" :PtDiagnosis="editAdDiagnosis"
+    @close="closeEditAdDiagnosisDialog" @hide="closeEditAdDiagnosisDialog" />
   <q-dialog v-if="AdModal" :model-value="true">
     <q-card style="width: 1980px; max-width: 180vw;">
+
       <q-card-section>
-        <q-banner dense inline-actions class="text-white bg-primary">
+        <q-banner dense inline-actions class="text-white bg-primary q-mb-sm">
           <label class="text-caption">
             {{ AdData.LASTNAME }} {{ AdData.FIRSTNAME }} {{
             AdData.MIDDLENAME }} - {{ AdData.PATIENTNO[0] }}
           </label>
-
         </q-banner>
+
+        <q-banner v-if="submitAlert" dense inline-actions class="text-white bg-green-3">
+          <label class="text-caption">
+            <q-spinner-hourglass color="primary" size="2em" />
+            {{ formSubmitMsg }}
+          </label>
+        </q-banner>
+
         <q-space class="q-mb-sm" />
-        <div class="text-caption text-weight-bold text-uppercase">PATIENT'S {{ AdLabel }}</div>
+        <div class="text-caption text-weight-bold text-uppercase">ADD PATIENT'S {{ DTitle }}</div>
       </q-card-section>
       <q-form @submit="submitAdDiagnosis" class="q-gutter-md" ref="form">
         <div class="row" style="max-width: 1800px">
-
           <div class="col-md-12 q-ml-md">
             <q-input outlined v-model="adDiagnosis.admitting_diagnosis" autogrow hint="ADMITTING DIAGNOSIS" lazy-rules
               :rules="[val => val && val.length > 0 || 'This is required']" />
@@ -24,7 +33,6 @@
             <q-input outlined v-model="adDiagnosis.discharge_diagnosis" autogrow hint="DISCHARGE DIAGNOSIS" lazy-rules
               :rules="[val => val && val.length > 0 || 'This is required']" />
           </div>
-
           <div class="col-md-2 q-ml-md">
             <q-space class="q-mb-md" />
             <q-input outlined v-model="adDiagnosis.a_first_case_rate" hint="FIRST CASE RATE" />
@@ -33,15 +41,12 @@
             <q-space class="q-mb-md" />
             <q-input outlined v-model="adDiagnosis.a_second_case_rate" hint="SECOND CASE RATE" />
           </div>
-
         </div>
         <div class="row q-pa-md">
           <q-btn class="q-mr-md" label="Submit" type="submit" color="primary" />
         </div>
       </q-form>
       <q-card-actions align="right" class="bg-white text-teal">
-
-
         <q-btn flat label="Close" @click="close" v-close-popup />
       </q-card-actions>
 
@@ -49,27 +54,24 @@
       <q-separator class="q-ml-md q-mr-md" />
       <q-space class="q-mb-md" />
 
-      <div class="row" style="max-width: 1800px">
+      <div class="row" style="max-width: 1820px">
         <div class="col-md-12 q-ml-md">
           <q-banner dense inline-actions class="text-white bg-primary">
             <label class="text-caption">
-              ENTRIES
+              ADMITTING DIAGNOSIS
             </label>
 
           </q-banner>
         </div>
         <q-space class="q-mb-md" />
-        <div class="col-md-12 q-ml-md">
-          <q-input outlined v-model="adDiagnosis.discharge_diagnosis" autogrow hint="DISCHARGE DIAGNOSIS" />
-        </div>
-
-        <div class="col-md-2 q-ml-md">
-          <q-space class="q-mb-md" />
-          <q-input outlined hint="FIRST CASE RATE" />
-        </div>
-        <div class="col-md-2 q-ml-md">
-          <q-space class="q-mb-md" />
-          <q-input outlined hint="SECOND CASE RATE" />
+        <div v-for="diagnosis in PAdDiagnosis" :key="diagnosis" class="col-md-12 q-ml-md">
+          <q-list class="q-mb-sm" bordered separator>
+            <q-item>
+              <q-item-section> {{ diagnosis.AD_DIAGNOSIS }}</q-item-section>
+              <q-btn round color="primary" icon="edit" @click="editAdDiagnosisDialog(diagnosis)" class="q-mr-sm" />
+              <q-btn round color="red" icon="delete" />
+            </q-item>
+          </q-list>
         </div>
 
       </div>
@@ -81,37 +83,18 @@
 import { defineComponent, ref } from 'vue'
 import { mapGetters } from 'vuex'
 import CONSTANTS from '../constants'
+import EditAdDiagnosisDialog from 'components/EditAdDiagnosisDialog.vue'
 
 export default defineComponent({
   name: 'AdmittingDiagnosisDialog',
-  setup() {
-    return {
-      triggerPositive() {
-        $q.notify({
-          type: 'positive',
-          message: 'Project was submitted'
-        })
-      },
-      triggerInfo() {
-        $q.notify({
-          type: 'info',
-          message: 'Project was updated'
-        })
-      },
-      triggerNegative() {
-        $q.notify({
-          type: 'negative',
-          message: 'Project was deleted'
-        })
-      }
-    }
+  components: {
+    EditAdDiagnosisDialog
   },
-  props: ['AdModal', 'AdData'],
-
+  props: ['AdModal', 'vData', 'AdData', 'PAdDiagnosis', 'DTitle'],
   data() {
     return {
-      AdLabel: CONSTANTS.AD_DIALOG_LABEL,
       patientAdData: {},
+      patientInfo: {},
       adDiagnosis: {
         patient_no: '',
         case_no: '',
@@ -121,11 +104,24 @@ export default defineComponent({
         a_second_case_rate: '',
         ad_status: ''
       },
+      editAdDiagnosis: {
+        admitting_diagnosis: '',
+        discharge_diagnosis: '',
+        a_first_case_rate: '',
+        a_second_case_rate: ''
+      },
+      editAdModal: false,
+      submitAlert: false,
       searchHint: CONSTANTS.SEARCH_HINT,
       searchLabel: CONSTANTS.SEARCH_LABEL,
       btnCf4Label: CONSTANTS.BUTTON_CF4_LABEL,
-      loadingLabel: CONSTANTS.LOADING_LABEL
+      loadingLabel: CONSTANTS.LOADING_LABEL,
+      AdLabel: CONSTANTS.AD_DIALOG_LABEL,
+      formSubmitMsg: CONSTANTS.FORM_SUBMIT_MESSAGE
     }
+  },
+  created() {
+    this.fetchPatientData()
   },
   computed: {
     ...mapGetters({
@@ -135,10 +131,25 @@ export default defineComponent({
       searchedPatients: 'patientsCf4/searchedPatients',
     })
   },
+  watch: {
+    vData: {
+      handler(val) {
+        if (val) {
+          this.adDiagnosis.admitting_diagnosis = val.admitting_diagnosis
+          this.adDiagnosis.discharge_diagnosis = val.discharge_diagnosis
+          this.adDiagnosis.a_first_case_rate = val.a_first_case_rate
+          this.adDiagnosis.a_second_case_rate = val.a_second_case_rate
+        } else {
+          this.adDiagnosis.admitting_diagnosis = ''
+          this.adDiagnosis.discharge_diagnosis = ''
+          this.adDiagnosis.a_first_case_rate = ''
+          this.adDiagnosis.a_second_case_rate = ''
+        }
+      },
+      immediate: true
+    }
+  },
   methods: {
-    async getPatientDetails(patientNo) {
-      await this.$router.push({ path: 'patient_cf4', query: { pNo: patientNo } })
-    },
     async createAdDiagnosis() {
       let data = {
         patient_no: this.AdData.PATIENTNO[0],
@@ -151,11 +162,36 @@ export default defineComponent({
         emp_code: this.AdData.ENCODED_BY
       }
       const result = await this.$store.dispatch('patientsCf4/createAdDiagnosis', data)
-      this.submitStatus === 200 ? (() => { this.close(); this.triggerPositive(); })() : null
+      result.status === 200 ? (() => { this.submitAlert = true; })() : null
+    },
+    async cf4() {
+      await this.$router.push({ path: 'patient_cf4', query: { pNo: this.AdData.PATIENTNO[0] } })
     },
     submitAdDiagnosis() {
       // this.title === 'Assign Project' ? this.saveProject() : this.title === 'Edit Project' ? this.saveEditProject() : this.deleteProject()
       this.createAdDiagnosis();
+      setTimeout(() => {
+        this.submitAlert = false
+        this.close()
+        this.$router.go()
+      }, 3000)
+    },
+    editAdDiagnosisDialog(pDiagnosis) {
+      console.log('edit Diagnosis: ', pDiagnosis)
+      this.editAdModal = true
+      this.editAdDiagnosis = {
+        admitting_diagnosis: pDiagnosis.AD_DIAGNOSIS,
+        discharge_diagnosis: pDiagnosis.DIS_DIAGNOSIS,
+        a_first_case_rate: pDiagnosis.AFIRST_CASE_RATE,
+        a_second_case_rate: pDiagnosis.ASECOND_CASE_RATE
+      }
+    },
+    async fetchPatientData() {
+      const result = await this.$store.dispatch('patientsCf4/getPatientDetails', this.$route.query.pNo)
+      this.patientInfo = this.patientDetails
+    },
+    closeEditAdDiagnosisDialog() {
+      this.editAdModal = false
     },
     close() {
       this.$emit('close')

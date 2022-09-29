@@ -51,3 +51,17 @@ export async function createAdDiagnosis(context, payload) {
     return err
   }
 }
+export async function getAdDiagnosisEntries(context, payload) {
+  try {
+    console.log('pNo: ', payload)
+    const response = await axios.get(`${this.state.patientsCf4.apiUrl}/admitting_diagnosis_entries?patientNo=${payload}`)
+    console.log('result: ', response.data)
+    // response.data = response.data.map(diagnosis => diagnosis.AD_DIAGNOSIS)
+    context.commit('setPatientDiagnosis', response.data)
+
+    return response
+  } catch (err) {
+    console.log(err);
+    return err
+  }
+}

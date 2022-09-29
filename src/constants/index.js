@@ -8,11 +8,12 @@ const INPUT_RULE = 'Sorry, Minimum is 2 Letters'
 const NAME_OF_HCI = 'UNIVERSITY OF THE EAST RAMON MAGSAYSAY MEMORIAL MEDICAL CENTER INC (UERMMMCI)'
 const ACCREDITATION_NO = 'H93005943'
 const ADDRESS_OF_HCI = '#64 AURORA BOULEVARD BARANGAY DOÑA IMELDA, QUEZON CITY 1113'
-const ADDRESS_BOTTOM_LABEL = 'Bldg. No and Name/Lot/Block / Street / Subdivision/Village / Barangay/City / Municipality / Province / ZIP Code'
+const ADDRESS_BOTTOM_LABEL = 'Bldg. No and Name / Lot/Block / Street / Subdivision/Village / Barangay/City / Municipality / Province / ZIP Code'
 const BUTTON_CF4_LABEL = 'CREATE CF4'
 const LOADING_LABEL = 'FETCHING DATA'
 const AD_DIALOG_LABEL = 'ADMITTING DIAGNOSIS'
 const NEW_AD_STATUS = 'NEW ENTRY'
+const FORM_SUBMIT_MESSAGE = 'ADMITTING DIAGNOSIS WAS SUBMITTED'
 
 export default {
   APP_TITLE,
@@ -29,5 +30,6 @@ export default {
   BUTTON_CF4_LABEL,
   LOADING_LABEL,
   AD_DIALOG_LABEL,
-  NEW_AD_STATUS
+  NEW_AD_STATUS,
+  FORM_SUBMIT_MESSAGE
 }

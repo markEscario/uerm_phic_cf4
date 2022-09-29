@@ -10,6 +10,9 @@ export function searchedPatients(state) {
 export function patientDetails(state) {
   return state.patientDetails
 }
+export function patientDiagnosis(state) {
+  return state.patientDiagnosis
+}
 export function patientEncoders(state) {
   return state.patientEncoders
 }
