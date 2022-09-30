@@ -25,21 +25,21 @@
       <q-form @submit="submitAdDiagnosis" class="q-gutter-md" ref="form">
         <div class="row" style="max-width: 1800px">
           <div class="col-md-12 q-ml-md">
-            <q-input outlined v-model="adDiagnosis.admitting_diagnosis" autogrow hint="ADMITTING DIAGNOSIS" lazy-rules
-              :rules="[val => val && val.length > 0 || 'This is required']" />
+            <q-input class="text-uppercase" outlined v-model="adDiagnosis.admitting_diagnosis" autogrow
+              hint="ADMITTING DIAGNOSIS" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
           </div>
           <q-space class="q-mb-md" />
           <div class="col-md-12 q-ml-md">
-            <q-input outlined v-model="adDiagnosis.discharge_diagnosis" autogrow hint="DISCHARGE DIAGNOSIS" lazy-rules
-              :rules="[val => val && val.length > 0 || 'This is required']" />
+            <q-input class="text-uppercase" outlined v-model="adDiagnosis.discharge_diagnosis" autogrow
+              hint="DISCHARGE DIAGNOSIS" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
           </div>
           <div class="col-md-2 q-ml-md">
             <q-space class="q-mb-md" />
-            <q-input outlined v-model="adDiagnosis.a_first_case_rate" hint="FIRST CASE RATE" />
+            <q-input class="text-uppercase" outlined v-model="adDiagnosis.a_first_case_rate" hint="FIRST CASE RATE" />
           </div>
           <div class="col-md-2 q-ml-md">
             <q-space class="q-mb-md" />
-            <q-input outlined v-model="adDiagnosis.a_second_case_rate" hint="SECOND CASE RATE" />
+            <q-input class="text-uppercase" outlined v-model="adDiagnosis.a_second_case_rate" hint="SECOND CASE RATE" />
           </div>
         </div>
         <div class="row q-pa-md">
@@ -54,7 +54,7 @@
       <q-separator class="q-ml-md q-mr-md" />
       <q-space class="q-mb-md" />
 
-      <div class="row" style="max-width: 1820px">
+      <div class="row" style="max-width: 1800px">
         <div class="col-md-12 q-ml-md">
           <q-banner dense inline-actions class="text-white bg-primary">
             <label class="text-caption">

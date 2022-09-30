@@ -154,7 +154,7 @@ export default defineComponent({
             this.resultPatients = this.searchedPatients
             result.data.length <= 0 ? this.filterMessage = CONSTANTS.FILTER_ERROR : ''
             this.visible = false
-          }, 2000)
+          }, 1000)
           : this.pageStatus = CONSTANTS.API_ERROR
       }
     },
