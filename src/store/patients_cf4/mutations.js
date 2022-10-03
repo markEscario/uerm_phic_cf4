@@ -13,6 +13,9 @@ export function setPatientDetails(state, patientDetails) {
 export function setPatientDiagnosis(state, patientDiagnosis) {
   state.patientDiagnosis = patientDiagnosis
 }
+export function setPatientHistories(state, patientHistories) {
+  state.patientHistories = patientHistories
+}
 export function setPatientEncoders(state, patientEncoders) {
   state.patientEncoders = patientEncoders
 }

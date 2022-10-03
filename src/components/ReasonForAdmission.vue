@@ -1,4 +1,6 @@
 <template>
+  <HistoryOfPresentIllnessDialog :hModal="historyModal" :pHistory="patientHistory" :Histories="patientHistories"
+    :AdData="patientsInfo" :hTitle="dialogTitle" @close="closeHistoryDialog" @hide="closeHistoryDialog" />
   <q-expansion-item class="bg-amber-3">
     <template v-slot:header>
       <q-item-section avatar>
@@ -8,7 +10,12 @@
       <q-item-section>
         III. REASON FOR ADMISSION
       </q-item-section>
-      <q-btn class="q-mr-sm" outline rounded color="primary" label="HISTORY OF PRESENT ILLNESS" size="sm" />
+      <q-btn class="q-mr-sm" outline rounded color="primary" label="HISTORY OF PRESENT ILLNESS" size="sm"
+        @click="historyDialog(patientDetails)" />
+      <q-btn class="q-mr-sm" outline rounded color="primary" label="PERTINENT PAS MEDICAL HISTORY" size="sm" />
+      <q-btn class="q-mr-sm" outline rounded color="primary" label="OB / GYN HISTORY" size="sm" />
+      <q-btn class="q-mr-sm" outline rounded color="primary" label="PERTINENT SIGN AND SYMPTOMS ON ADMISSION"
+        size="sm" />
     </template>
 
     <q-card>
@@ -17,13 +24,7 @@
           <div class="col-md-11">
             <label class="text-weight-bold">1. History of Present Illness</label>
             <q-space />
-            9 hours PTA, the patient noted hypogastric pain described as “parang naninigas” (PS 4-5/10),
-            of 2-3 seconds duration, with a 15 second interval. 1 hour PTA, patient was given unrecalled
-            medications for her contractions which increased the interval duration to 20-25 seconds,
-            with a PS of 3/10. At the time of admission, the patient was experiencing contractions
-            of 1-2 seconds duration with 25 min interval with a PS of 2/10, and was admitted at UERM
-            for monitoring. Pertinent positive: (+) fetal movements Pertinent negative: (-) rupture BOW,
-            fever, vomiting, headache, blurring of vision, coughs, and colds
+            NONE
           </div>
           <q-space class="q-pa-md" />
           <div class="col-md-11">
@@ -56,8 +57,58 @@
   </q-expansion-item>
 </template>
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from "vue";
+import { mapGetters } from 'vuex'
+import moment from 'moment'
+import CONSTANTS from '../constants'
+import HistoryOfPresentIllnessDialog from 'components/HistoryOfPresentIllnessDialog.vue'
+
 export default defineComponent({
   name: 'ReasonForAdmission',
+  components: {
+    HistoryOfPresentIllnessDialog
+  },
+  data() {
+    return {
+      moment,
+      dialogTitle: '',
+      historyModal: false,
+      patientsInfo: {},
+      patientHistory: {
+        history_of_present_illness: ''
+      }
+    }
+  },
+  created() {
+    this.fetchPatientData()
+    this.getPatientHistoryEntries()
+  },
+  computed: {
+    ...mapGetters({
+      employees: 'patientsCf4/patients',
+      searchStatus: 'patientsCf4/searchStatus',
+      patientDetails: 'patientsCf4/patientDetails',
+      patientHistories: 'patientsCf4/patientHistories',
+      searchedPatients: 'patientsCf4/searchedPatients'
+    })
+  },
+  methods: {
+    async fetchPatientData() {
+      const result = await this.$store.dispatch('patientsCf4/getPatientDetails', this.$route.query.pNo)
+    },
+    async getPatientHistoryEntries() {
+      console.log('pNoX: ', this.$route.query.pNo)
+      const result = await this.$store.dispatch('patientsCf4/getPatientHistoryEntries', this.$route.query.pNo)
+    },
+    historyDialog(pInfo) {
+      this.dialogTitle = CONSTANTS.HISTORY_DIALOG_LABEL
+      this.historyModal = true
+      this.patientsInfo = pInfo
+    },
+    closeHistoryDialog() {
+      this.historyModal = false
+      // this.adDiagnosis = {}
+    }
+  }
 })
 </script>

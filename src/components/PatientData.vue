@@ -22,7 +22,7 @@
         <div class="row">
 
           <div class="col-md-6">
-            <label class="text-weight-bold">1. NAME OF PATIENT</label>
+            <label class="text-weight-bold">1. Name of Patient</label>
             <q-space />
             <div class="row">
               <div class="col-md-3">
@@ -52,7 +52,7 @@
             </div>
           </div>
           <div class="col-md-2">
-            <label class="text-weight-bold">3. AGE</label>
+            <label class="text-weight-bold">3. Age</label>
             <q-space />
             <div class="row">
               <div class="col-md-3">
@@ -61,7 +61,7 @@
             </div>
           </div>
           <div class="col-md-2">
-            <label class="text-weight-bold">3. SEX</label>
+            <label class="text-weight-bold">3. Sex</label>
             <q-space />
             <div class="row">
               <div class="col-md-3">
@@ -85,28 +85,28 @@
           <div class="col-md-4">
             <label class="text-weight-bold">6. Admitting Diagnosis</label>
             <q-space />
-            <div v-for="diagnosis in patientAdDiagnosis" :key="diagnosis">
+            <div class="text-uppercase" v-for="diagnosis in patientAdDiagnosis" :key="diagnosis">
               {{ diagnosis.AD_DIAGNOSIS }}
             </div>
           </div>
           <div class="col-md-4">
             <label class="text-weight-bold">7. Discharge Diagnosis</label>
             <q-space />
-            <div v-for="diagnosis in patientAdDiagnosis" :key="diagnosis">
+            <div class="text-uppercase" v-for="diagnosis in patientAdDiagnosis" :key="diagnosis">
               {{ diagnosis.DIS_DIAGNOSIS }}
             </div>
           </div>
           <div class="col-md-2">
             <label class="text-weight-bold">8 a. 1st Case Rate Code </label>
             <q-space />
-            <div v-for="diagnosis in patientAdDiagnosis" :key="diagnosis">
+            <div class="text-uppercase" v-for="diagnosis in patientAdDiagnosis" :key="diagnosis">
               {{ diagnosis.AFIRST_CASE_RATE }}
             </div>
           </div>
           <div class="col-md-2">
             <label class="text-weight-bold">8 a. 2nd Case Rate Code </label>
             <q-space />
-            <div v-for="diagnosis in patientAdDiagnosis" :key="diagnosis">
+            <div class="text-uppercase" v-for="diagnosis in patientAdDiagnosis" :key="diagnosis">
               {{ diagnosis.ASECOND_CASE_RATE }}
             </div>
           </div>
@@ -203,7 +203,6 @@ export default defineComponent({
     },
     async getAdDiagnosisEntries() {
       const result = await this.$store.dispatch('patientsCf4/getAdDiagnosisEntries', this.$route.query.pNo)
-      console.log('res: ', this.patientAdDiagnosis)
       this.patientAdDiagnosis = this.patientDiagnosis
     },
     openAdmittingDiagnosis(pInfo) {

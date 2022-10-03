@@ -9,6 +9,7 @@ export default function () {
     searchedPatients: [],
     patientDetails: {},
     patientDiagnosis: [],
+    patientHistories: [],
     patientEncoders: {},
     isLogged: false,
     profileData: {},

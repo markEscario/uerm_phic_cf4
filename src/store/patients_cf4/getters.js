@@ -13,6 +13,9 @@ export function patientDetails(state) {
 export function patientDiagnosis(state) {
   return state.patientDiagnosis
 }
+export function patientHistories(state) {
+  return state.patientHistories
+}
 export function patientEncoders(state) {
   return state.patientEncoders
 }

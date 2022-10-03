@@ -1,6 +1,6 @@
 <template>
-  <EditAdDiagnosisDialog :EditAdModal="editAdModal" :PtInfo="patientInfo" :PtDiagnosis="editAdDiagnosis"
-    @close="closeEditAdDiagnosisDialog" @hide="closeEditAdDiagnosisDialog" />
+  <EditAdDiagnosisDialog :EditAdModal="editAdModal" :fTitle="formTitle" :PtInfo="patientInfo"
+    :PtDiagnosis="editAdDiagnosis" @close="closeEditAdDiagnosisDialog" @hide="closeEditAdDiagnosisDialog" />
   <q-dialog v-if="AdModal" :model-value="true">
     <q-card style="width: 1980px; max-width: 180vw;">
 
@@ -54,7 +54,7 @@
       <q-separator class="q-ml-md q-mr-md" />
       <q-space class="q-mb-md" />
 
-      <div class="row" style="max-width: 1800px">
+      <div class="row" style="max-width: 1820px">
         <div class="col-md-12 q-ml-md">
           <q-banner dense inline-actions class="text-white bg-primary">
             <label class="text-caption">
@@ -67,9 +67,9 @@
         <div v-for="diagnosis in PAdDiagnosis" :key="diagnosis" class="col-md-12 q-ml-md">
           <q-list class="q-mb-sm" bordered separator>
             <q-item>
-              <q-item-section> {{ diagnosis.AD_DIAGNOSIS }}</q-item-section>
+              <q-item-section class="text-uppercase"> {{ diagnosis.AD_DIAGNOSIS }}</q-item-section>
               <q-btn round color="primary" icon="edit" @click="editAdDiagnosisDialog(diagnosis)" class="q-mr-sm" />
-              <q-btn round color="red" icon="delete" />
+              <q-btn round color="red" icon="delete" @click="deleteAdDiagnosisDialog(diagnosis)" />
             </q-item>
           </q-list>
         </div>
@@ -105,11 +105,22 @@ export default defineComponent({
         ad_status: ''
       },
       editAdDiagnosis: {
+        id: '',
+        patient_no: '',
+        case: '',
         admitting_diagnosis: '',
         discharge_diagnosis: '',
         a_first_case_rate: '',
         a_second_case_rate: ''
       },
+      deleteAdDiagnosis: {
+        id: '',
+        patient_no: '',
+        admitting_diagnosis: '',
+        case: '',
+        ad_status: ''
+      },
+      formTitle: '',
       editAdModal: false,
       submitAlert: false,
       searchHint: CONSTANTS.SEARCH_HINT,
@@ -177,13 +188,30 @@ export default defineComponent({
       }, 3000)
     },
     editAdDiagnosisDialog(pDiagnosis) {
-      console.log('edit Diagnosis: ', pDiagnosis)
+      console.log('id: ', pDiagnosis.ID)
       this.editAdModal = true
+      this.formTitle = 'EDIT ADMITTING DIAGNOSIS'
+
       this.editAdDiagnosis = {
+        id: pDiagnosis.ID,
+        patient_no: pDiagnosis.PATIENTNO,
+        case_no: pDiagnosis.CASENO,
         admitting_diagnosis: pDiagnosis.AD_DIAGNOSIS,
         discharge_diagnosis: pDiagnosis.DIS_DIAGNOSIS,
         a_first_case_rate: pDiagnosis.AFIRST_CASE_RATE,
         a_second_case_rate: pDiagnosis.ASECOND_CASE_RATE
+      }
+    },
+    deleteAdDiagnosisDialog(pDiagnosis) {
+      console.log('id: ', pDiagnosis.ID)
+      this.editAdModal = true,
+        this.formTitle = 'DELETE ADMITTING DIAGNOSIS'
+
+      this.editAdDiagnosis = {
+        id: pDiagnosis.ID,
+        patient_no: pDiagnosis.PATIENTNO,
+        case_no: pDiagnosis.CASENO,
+        admitting_diagnosis: pDiagnosis.AD_DIAGNOSIS
       }
     },
     async fetchPatientData() {

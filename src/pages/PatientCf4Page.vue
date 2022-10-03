@@ -11,13 +11,6 @@
     <div class="row">
       <div class="col-md-12">
         <q-btn outline class="q-mr-sm" round color="primary" icon="arrow_back" @click="$router.go(-1)" />
-        <q-btn class="q-mr-sm" outline rounded color="primary" label="ADMITTING DIAGNOSIS"
-          @click="openAdmittingDiagnosis(patientDetails)" size="sm" />
-        <q-btn class="q-mr-sm" outline rounded color="primary" label="HISTORY OF PRESENT ILLNESS" size="sm" />
-        <q-btn class="q-mr-sm" outline rounded color="primary" label="PERTINENT PAS MEDICAL HISTORY" size="sm" />
-        <q-btn class="q-mr-sm" outline rounded color="primary" label="OB / GYN HISTORY" size="sm" />
-        <q-btn class="q-mr-sm" outline rounded color="primary" label="PERTINENT SIGN AND SYMPTOMS ON ADMISSION"
-          size="sm" />
         <q-btn class="q-mr-sm" outline rounded color="primary" label="PHYSICAL EXAMINATION ON ADMISSION" size="sm" />
         <q-btn class="q-mr-sm" outline rounded color="primary" label="COURSE IN THE WARD" size="sm" />
         <q-btn class="q-mr-sm" outline rounded color="primary" label="DRUGS AND MEDICINES" size="sm" />
@@ -151,7 +144,6 @@
 </template>
 <script>
 import { defineComponent, ref } from 'vue'
-import { useQuasar } from 'quasar'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 import CONSTANTS from '../constants'
