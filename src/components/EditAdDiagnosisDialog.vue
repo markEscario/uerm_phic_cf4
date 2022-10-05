@@ -11,7 +11,8 @@
         <q-banner v-if="submitAlert" dense inline-actions class="text-white bg-green-3">
           <label class="text-caption">
             <q-spinner-hourglass color="primary" size="2em" />
-            {{ fTitle === 'DELETE ADMITTING DIAGNOSIS' ? 'ADMITTING DIAGNOSIS WAS DELETED' : formSubmitMsg }}
+            {{ fTitle === 'DELETE ADMITTING DIAGNOSIS' ? 'ADMITTING DIAGNOSIS WAS DELETED' :
+            formUpdateAdmittingDiagnosisMsg }}
           </label>
         </q-banner>
 
@@ -44,7 +45,7 @@
           <div class="col-md-8 q-ml-md">
             ARE YOUR SURE YOU WANT TO DELETE THIS RECORD?
           </div>
-          <div class="col-md-8 q-ml-md text-weight-bold">
+          <div class="col-md-8 q-ml-md text-weight-bold text-uppercase">
             {{ editAdDiagnosis.admitting_diagnosis }}
           </div>
         </div>
@@ -84,7 +85,7 @@ export default defineComponent({
         a_second_case_rate: ''
       },
       submitAlert: false,
-      formUpdateMsg: CONSTANTS.FORM_UPDATE_MESSAGE
+      formUpdateAdmittingDiagnosisMsg: CONSTANTS.FORM_UPDATE_ADMITTING_DIAGNOSIS_MESSAGE
     }
   },
   watch: {

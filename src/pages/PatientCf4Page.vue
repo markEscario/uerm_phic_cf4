@@ -11,7 +11,6 @@
     <div class="row">
       <div class="col-md-12">
         <q-btn outline class="q-mr-sm" round color="primary" icon="arrow_back" @click="$router.go(-1)" />
-        <q-btn class="q-mr-sm" outline rounded color="primary" label="PHYSICAL EXAMINATION ON ADMISSION" size="sm" />
         <q-btn class="q-mr-sm" outline rounded color="primary" label="COURSE IN THE WARD" size="sm" />
         <q-btn class="q-mr-sm" outline rounded color="primary" label="DRUGS AND MEDICINES" size="sm" />
         <q-btn class="q-mr-sm" outline rounded color="primary" label="OUTCOME OF TREATMENT" size="sm" />

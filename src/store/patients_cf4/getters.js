@@ -10,11 +10,17 @@ export function searchedPatients(state) {
 export function patientDetails(state) {
   return state.patientDetails
 }
+export function cf4PatientData(state) {
+  return state.cf4PatientData
+}
 export function patientDiagnosis(state) {
   return state.patientDiagnosis
 }
 export function patientHistories(state) {
   return state.patientHistories
+}
+export function pertinentPastMedicalHistories(state) {
+  return state.pertinentPastMedicalHistories
 }
 export function patientEncoders(state) {
   return state.patientEncoders

@@ -10,11 +10,17 @@ export function setSearchedPatients(state, searchedPatients) {
 export function setPatientDetails(state, patientDetails) {
   state.patientDetails = patientDetails
 }
+export function setCf4PatientData(state, cf4PatientData) {
+  state.cf4PatientData = cf4PatientData
+}
 export function setPatientDiagnosis(state, patientDiagnosis) {
   state.patientDiagnosis = patientDiagnosis
 }
 export function setPatientHistories(state, patientHistories) {
   state.patientHistories = patientHistories
+}
+export function setPertinentPastMedicalHistories(state, pertinentPastMedicalHistories) {
+  state.pertinentPastMedicalHistories = pertinentPastMedicalHistories
 }
 export function setPatientEncoders(state, patientEncoders) {
   state.patientEncoders = patientEncoders

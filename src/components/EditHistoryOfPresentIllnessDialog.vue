@@ -11,7 +11,8 @@
         <q-banner v-if="submitAlert" dense inline-actions class="text-white bg-green-3">
           <label class="text-caption">
             <q-spinner-hourglass color="primary" size="2em" />
-            {{ fTitle === 'DELETE HISTORY OF PRESENT ILLNESS' ? 'HISTORY OF PRESENT ILLNESS WAS DELETED' : formSubmitMsg
+            {{ fTitle === 'DELETE HISTORY OF PRESENT ILLNESS' ? 'HISTORY OF PRESENT ILLNESS WAS DELETED' :
+            formUpdateHistoryMsg
             }}
           </label>
         </q-banner>
@@ -19,8 +20,8 @@
         <q-space class="q-mb-sm" />
         <div class="text-caption text-weight-bold text-uppercase">{{ fTitle }}</div>
       </q-card-section>
-      <q-form @submit="submitUpdatedDiagnosis" class="q-gutter-md" ref="form">
-        <div v-if="fTitle === 'EDIT PATIENT HISTORY OF PRESENT ILLNESS'" class="row" style="max-width: 1800px">
+      <q-form @submit="submitUpdatedHistory" class="q-gutter-md" ref="form">
+        <div v-if="fTitle === 'EDIT HISTORY OF PRESENT ILLNESS'" class="row" style="max-width: 1800px">
           <div class="col-md-12 q-ml-md">
             <q-input class="text-uppercase" outlined v-model="editPatientHistory.history_of_present_illness" autogrow
               hint="HISTORY PRESENT ILLNESS" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
@@ -30,15 +31,14 @@
           <div class="col-md-8 q-ml-md">
             ARE YOUR SURE YOU WANT TO DELETE THIS RECORD?
           </div>
-          <div class="col-md-8 q-ml-md text-weight-bold">
-            {{ editAdDiagnosis.admitting_diagnosis }}
+          <div class="col-md-8 q-ml-md text-weight-bold text-uppercase">
+            {{ editPatientHistory.history_of_present_illness }}
           </div>
         </div>
         <div class="row q-pa-md">
-          <q-btn v-if="fTitle === 'EDIT PATIENT HISTORY OF PRESENT ILLNESS'" class="q-mr-md" label="Update"
-            type="submit" color="primary" />
+          <q-btn v-if="fTitle === 'EDIT HISTORY OF PRESENT ILLNESS'" class="q-mr-md" label="Update" type="submit"
+            color="primary" />
           <q-btn v-else class="q-mr-md" label="DELETE" type="submit" color="red" />
-
         </div>
       </q-form>
       <q-card-actions align="right" class="bg-white text-teal">
@@ -67,7 +67,7 @@ export default defineComponent({
         history_of_present_illness: ''
       },
       submitAlert: false,
-      formUpdateMsg: CONSTANTS.FORM_UPDATE_MESSAGE
+      formUpdateHistoryMsg: CONSTANTS.FORM_UPDATE_HISTORY_MESSAGE
     }
   },
   watch: {
@@ -101,16 +101,17 @@ export default defineComponent({
     },
     async deletePatientHistory() {
       let data = {
-        id: this.editAdDiagnosis.id,
-        patient_no: this.editAdDiagnosis.patient_no,
-        case_no: this.editAdDiagnosis.case_no,
-        admitting_diagnosis: this.editAdDiagnosis.admitting_diagnosis,
-        ad_status: 'DELETED'
+        id: this.editPatientHistory.id,
+        patient_no: this.editPatientHistory.patient_no,
+        case_no: this.editPatientHistory.case_no,
+        admitting_diagnosis: this.editPatientHistory.history_of_present_illness,
+        hpi_status: 'DELETED'
       }
-      const result = await this.$store.dispatch('patientsCf4/deleteAdDiagnosis', data)
+      const result = await this.$store.dispatch('patientsCf4/deletePatientHistory', data)
       result.status === 200 ? (() => { this.submitAlert = true; })() : null
     },
-    submitUpdatedDiagnosis() {
+    submitUpdatedHistory() {
+      console.log('title: ', this.fTitle)
       this.fTitle === 'EDIT HISTORY OF PRESENT ILLNESS' ? this.editHistoryOfPresentIllness() : this.deletePatientHistory()
       setTimeout(() => {
         this.submitAlert = false

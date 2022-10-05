@@ -155,7 +155,19 @@ export default defineComponent({
     editPatientHistoryDialog(history) {
       console.log('id: ', history.ID)
       this.editHistoryModal = true
-      this.formTitle = 'EDIT PATIENT HISTORY OF PRESENT ILLNESS'
+      this.formTitle = 'EDIT HISTORY OF PRESENT ILLNESS'
+
+      this.editPatientHistory = {
+        id: history.ID,
+        patient_no: history.PATIENTNO,
+        case_no: history.CASENO,
+        history_of_present_illness: history.HISTORY_OF_PRESENT_ILLNESS
+      }
+    },
+    deletePatientHistoryDialog(history) {
+      console.log('id: ', history.ID)
+      this.editHistoryModal = true,
+        this.formTitle = 'DELETE HISTORY OF PRESENT ILLNESS'
 
       this.editPatientHistory = {
         id: history.ID,

@@ -1,4 +1,6 @@
 <template>
+  <CreateCF4ConfirmDialog :cf4Modal="cf4Modal" :pInfo="patientInfo" :dTitle="dialogTitle" @close="closeCF4ConfirmDialog"
+    @hide="closeCF4ConfirmDialog" />
   <div class="q-pa-lg">
     <q-form @submit="submitFilter" class="q-gutter-md" ref="form">
       <div class="q-gutter-md row q-ml-sm">
@@ -47,12 +49,17 @@
             }}
             </q-item-label>
             <q-item-label class="dept-label text-uppercase text-caption">CASE NO: {{
-            resultPatient.CASENO !== null ? resultPatient.CASENO.substr(0, 10) : resultPatient.CASENO
+            resultPatient.CASENO !== null ? resultPatient.CASENO : resultPatient.CASENO.substr(0, 10)
             }}
             </q-item-label>
             <q-item-label class="text-caption">
-              <q-btn unelevated color="green" size="sm" :label="btnCf4Label"
-                @click="getPatientDetails(resultPatient.PATIENTNO[0])" />
+              <!-- <q-btn unelevated color="green" size="sm" :label="btnCf4Label"
+                @click="getPatientDetails(resultPatient.PATIENTNO[0])" /> -->
+              <!-- <q-btn v-if="resultPatient.DATEDIS" unelevated color="green" size="sm" :label="btnCf4Label"
+                @click="createCF4Confirm(resultPatient)" /> -->
+              <q-btn unelevated color="green" size="sm" label="CREATE CF4" @click="createCF4Confirm(resultPatient)" />
+              <!-- <q-btn v-else unelevated color="green" size="sm" :label="btnCf4Label"
+                @click="getPatientDetails(resultPatient.PATIENTNO[0])" /> -->
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -86,80 +93,93 @@
 import { defineComponent, ref } from 'vue'
 import { mapGetters } from 'vuex'
 import CONSTANTS from '../constants'
+import CreateCF4ConfirmDialog from '../components/CreateCF4ConfirmDialog.vue'
 
 export default defineComponent({
-  name: 'IndexPage',
+  name: "IndexPage",
+  components: {
+    CreateCF4ConfirmDialog
+  },
   setup() {
-    const inputRef = ref(null)
+    const inputRef = ref(null);
     return {
-      filter: ref(''),
+      filter: ref(""),
       inputRef,
       visible: ref(false),
       rule1(val) {
         return new Promise((resolve, reject) => {
-          resolve(!!val || '* Required')
-        })
+          resolve(!!val || "* Required");
+        });
       },
       rule2(val) {
         return new Promise((resolve, reject) => {
-          resolve(val.length > 1 || CONSTANTS.INPUT_RULE)
-        })
+          resolve(val.length > 1 || CONSTANTS.INPUT_RULE);
+        });
       },
-    }
+    };
   },
   data() {
     return {
       search: {
-        filterPatient: ''
+        filterPatient: ""
       },
+      cf4Modal: false,
+      dialogTitle: "",
       pDetails: {},
+      patientInfo: {},
       page: 1,
       currentPage: 1,
       nextPage: null,
       totalPages: 8,
-      pageStatus: '',
-      filterMessage: '',
+      pageStatus: "",
+      filterMessage: "",
       resultPatients: [],
       searchHint: CONSTANTS.SEARCH_HINT,
       searchLabel: CONSTANTS.SEARCH_LABEL,
       btnCf4Label: CONSTANTS.BUTTON_CF4_LABEL,
       loadingLabel: CONSTANTS.LOADING_LABEL
-    }
+    };
   },
   computed: {
     ...mapGetters({
-      employees: 'patientsCf4/patients',
-      searchStatus: 'patientsCf4/searchStatus',
-      patientDetails: 'patientsCf4/patientDetails',
-      searchedPatients: 'patientsCf4/searchedPatients',
+      employees: "patientsCf4/patients",
+      searchStatus: "patientsCf4/searchStatus",
+      patientDetails: "patientsCf4/patientDetails",
+      searchedPatients: "patientsCf4/searchedPatients",
     }),
     paginatePatients() {
-      console.log('patients: ', this.resultPatients)
-      return this.resultPatients.slice((this.page - 1) * this.totalPages, (this.page - 1) * this.totalPages + this.totalPages)
+      return this.resultPatients.slice((this.page - 1) * this.totalPages, (this.page - 1) * this.totalPages + this.totalPages);
     }
-
   },
   methods: {
     async submitFilter() {
-      this.resultPatients = ''
-      this.filterMessage = ''
+      this.resultPatients = "";
+      this.filterMessage = "";
       let data = {
         filterData: this.search.filterPatient,
-      }
+      };
       if (data.filterData.length >= 2) {
-        this.visible = true
-        const result = await this.$store.dispatch('patientsCf4/searchPatients', data)
+        this.visible = true;
+        const result = await this.$store.dispatch("patientsCf4/searchPatients", data);
         result.status === 200 ?
           setTimeout(() => {
-            this.resultPatients = this.searchedPatients
-            result.data.length <= 0 ? this.filterMessage = CONSTANTS.FILTER_ERROR : ''
-            this.visible = false
+            this.resultPatients = this.searchedPatients;
+            result.data.length <= 0 ? this.filterMessage = CONSTANTS.FILTER_ERROR : "";
+            this.visible = false;
           }, 1000)
-          : this.pageStatus = CONSTANTS.API_ERROR
+          : this.pageStatus = CONSTANTS.API_ERROR;
       }
     },
     async getPatientDetails(patientNo) {
-      await this.$router.push({ path: 'patient_cf4', query: { pNo: patientNo } })
+      await this.$router.push({ path: "patient_cf4", query: { pNo: patientNo } });
+    },
+    createCF4Confirm(data) {
+      this.cf4Modal = true
+      this.dialogTitle = "CREATE PATIENT CF4";
+      this.patientInfo = data
+    },
+    cloiseCF4ConfirmDialog(data) {
+      this.cf4Modal = false
     }
   }
 })
