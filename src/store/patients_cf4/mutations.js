@@ -13,6 +13,9 @@ export function setPatientDetails(state, patientDetails) {
 export function setCf4PatientData(state, cf4PatientData) {
   state.cf4PatientData = cf4PatientData
 }
+export function setCf4ReasonForAdmission(state, cf4ReasonForAdmission) {
+  state.cf4ReasonForAdmission = cf4ReasonForAdmission
+}
 export function setPatientDiagnosis(state, patientDiagnosis) {
   state.patientDiagnosis = patientDiagnosis
 }

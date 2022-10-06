@@ -13,6 +13,9 @@ export function patientDetails(state) {
 export function cf4PatientData(state) {
   return state.cf4PatientData
 }
+export function cf4ReasonForAdmission(state) {
+  return state.cf4ReasonForAdmission
+}
 export function patientDiagnosis(state) {
   return state.patientDiagnosis
 }

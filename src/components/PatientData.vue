@@ -110,7 +110,6 @@
               {{ cf4PD.ASECOND_CASE_RATE }}
             </div>
           </div>
-
         </div>
 
         <q-space class="q-pa-sm" />
@@ -147,7 +146,6 @@
             {{ patientDetails.DATEAD ? moment(patientDetails.DATEDIS).format('hh:mm A') :
             patientDetails.DATEDIS }}
           </div>
-
         </div>
 
       </q-card-section>
@@ -185,12 +183,11 @@ export default defineComponent({
     }
   },
   created() {
-    this.fetchPatientData()
+    // this.fetchPatientData()
     this.getCf4PatientData()
   },
   computed: {
     ...mapGetters({
-      employees: 'patientsCf4/patients',
       searchStatus: 'patientsCf4/searchStatus',
       patientDetails: 'patientsCf4/patientDetails',
       cf4PD: 'patientsCf4/cf4PatientData',
@@ -204,7 +201,6 @@ export default defineComponent({
       await this.$store.dispatch('patientsCf4/getCf4PatientData', this.$route.query.pNo)
     },
     patientDataDialog(data) {
-      console.log('data: ', data.PATIENTNO)
       this.dialogTitle = 'EDIT PATIENT DATA'
       this.editPatientDataDialog = true
       this.cf4PatientData = {

@@ -4,14 +4,14 @@
       <q-card-section>
         <q-banner dense inline-actions class="text-white bg-primary q-mb-sm">
           <label class="text-caption">
-            {{ pInfo.LASTNAME }}, {{ pInfo.FIRSTNAME }} {{ pInfo.MIDDLENAME }} {{ pInfo.PATIENTNO[0] }}
+            {{ pInfo.LASTNAME }}, {{ pInfo.FIRSTNAME }} {{ pInfo.MIDDLENAME }} - {{ pInfo.PATIENTNO[0] }}
           </label>
         </q-banner>
 
         <q-banner v-if="submitAlert" dense inline-actions class="text-white bg-green-3">
           <label class="text-caption">
             <q-spinner-hourglass color="primary" size="2em" />
-            {{ formUpdateAdmittingDiagnosisMsg }}
+            {{ updatePatientDataMsg }}
           </label>
         </q-banner>
 
@@ -74,20 +74,17 @@ export default defineComponent({
         cf4_status: ''
       },
       submitAlert: false,
-      formUpdateAdmittingDiagnosisMsg: CONSTANTS.FORM_UPDATE_ADMITTING_DIAGNOSIS_MESSAGE
+      updatePatientDataMsg: CONSTANTS.FORM_UPDATE_PATIENT_DATA_MESSAGE
     }
-  },
-  created() {
-    this.getCf4();
   },
   watch: {
     cf4PData: {
       handler(val) {
         if (val) {
           this.cf4PatientData.id = val.id
-          this.cf4PatientData.admitting_diagnosis = val.admitting_diagnosis
           this.cf4PatientData.patient_no = val.patient_no
           this.cf4PatientData.case_no = val.case_no
+          this.cf4PatientData.admitting_diagnosis = val.admitting_diagnosis
           this.cf4PatientData.discharge_diagnosis = val.discharge_diagnosis
           this.cf4PatientData.a_first_case_rate = val.a_first_case_rate
           this.cf4PatientData.a_second_case_rate = val.a_second_case_rate
@@ -125,14 +122,11 @@ export default defineComponent({
       setTimeout(() => {
         this.submitAlert = false
         this.close()
-        // this.$router.go()
+        this.$router.go()
       }, 3000)
     },
     close() {
       this.$emit('close')
-    },
-    getCf4() {
-      console.log('thisx: ', this.cf4PData)
     }
   }
 

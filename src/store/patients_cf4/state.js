@@ -9,6 +9,7 @@ export default function () {
     searchedPatients: [],
     patientDetails: {},
     cf4PatientData: {},
+    cf4ReasonForAdmission: {},
     patientDiagnosis: [],
     patientHistories: [],
     pertinentPastMedicalHistories: [],

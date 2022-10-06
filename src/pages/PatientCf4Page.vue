@@ -1,4 +1,6 @@
 <template>
+  <EditPatientDataDialog :ePatientDataDialog="editPatientDataDialog" :dTitle="dialogTitle" :pInfo="patientDetails"
+    :cf4PData="cf4PatientData" @close="closeEditPatientDataDialog" @hide="closeEditPatientDataDialog" />
   <div class="q-pa-md" style="max-width: 1940px">
     <q-banner dense inline-actions class="text-white bg-grey">
       <label class="text-h6">
@@ -11,9 +13,6 @@
     <div class="row">
       <div class="col-md-12">
         <q-btn outline class="q-mr-sm" round color="primary" icon="arrow_back" @click="$router.go(-1)" />
-        <q-btn class="q-mr-sm" outline rounded color="primary" label="COURSE IN THE WARD" size="sm" />
-        <q-btn class="q-mr-sm" outline rounded color="primary" label="DRUGS AND MEDICINES" size="sm" />
-        <q-btn class="q-mr-sm" outline rounded color="primary" label="OUTCOME OF TREATMENT" size="sm" />
       </div>
     </div>
     <q-space class="q-pa-sm" />
@@ -81,10 +80,14 @@
 
         <q-card>
           <q-card-section>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos
-            corrupti
-            commodi magni quaerat ex numquam, dolorum officiis modi facere maiores architecto suscipit iste
-            eveniet doloribus ullam aliquid.
+            <div class="row">
+              <div class="col-md-3">
+                Data:
+              </div>
+              <div class="col-md-3">
+                DOCTOR'S ORDER / ACTION
+              </div>
+            </div>
           </q-card-section>
         </q-card>
       </q-expansion-item>

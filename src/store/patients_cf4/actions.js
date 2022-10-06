@@ -64,11 +64,12 @@ export async function getCf4PatientData(context, payload) {
     return err
   }
 }
-export async function updateAdDiagnosis(context, payload) {
+export async function getCf4ReasonForAdmission(context, payload) {
   try {
-    console.log('edit diagnosis: ', payload)
-    const response = await axios.put(`${this.state.patientsCf4.apiUrl}/update_admitting_diagnosis/${payload.id}`, payload)
-    console.log('result: ', response.data)
+    console.log('pNo: ', payload)
+    const response = await axios.get(`${this.state.patientsCf4.apiUrl}/cf4_reason_for_admission?patientNo=${payload}`)
+    console.log('response ROA: ', response)
+    context.commit('setCf4ReasonForAdmission', response.data[0])
 
     return response
   } catch (err) {
@@ -80,6 +81,18 @@ export async function updateCf4PatientData(context, payload) {
   try {
     console.log('edit cf4 p data: ', payload)
     const response = await axios.put(`${this.state.patientsCf4.apiUrl}/update_cf4_patient_data/${payload.id}`, payload)
+    console.log('result: ', response.data)
+
+    return response
+  } catch (err) {
+    console.log(err);
+    return err
+  }
+}
+export async function updateCf4ReasonForAdmission(context, payload) {
+  try {
+    console.log('edit cf4 reason for admission: ', payload)
+    const response = await axios.put(`${this.state.patientsCf4.apiUrl}/update_reason_for_admission/${payload.id}`, payload)
     console.log('result: ', response.data)
 
     return response

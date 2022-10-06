@@ -53,13 +53,10 @@
             }}
             </q-item-label>
             <q-item-label class="text-caption">
-              <!-- <q-btn unelevated color="green" size="sm" :label="btnCf4Label"
-                @click="getPatientDetails(resultPatient.PATIENTNO[0])" /> -->
-              <!-- <q-btn v-if="resultPatient.DATEDIS" unelevated color="green" size="sm" :label="btnCf4Label"
-                @click="createCF4Confirm(resultPatient)" /> -->
-              <q-btn unelevated color="green" size="sm" label="CREATE CF4" @click="createCF4Confirm(resultPatient)" />
-              <!-- <q-btn v-else unelevated color="green" size="sm" :label="btnCf4Label"
-                @click="getPatientDetails(resultPatient.PATIENTNO[0])" /> -->
+              <q-btn unelevated v-if="resultPatient.CF4_STATUS" color="green" size="sm" label="UPDATE CF4"
+                @click="getPatientDetails(resultPatient.PATIENTNO[0])" />
+              <q-btn unelevated v-else color="red" size="sm" label="CREATE CF4"
+                @click="createCF4Confirm(resultPatient)" />
             </q-item-label>
           </q-item-section>
         </q-item>
@@ -178,7 +175,7 @@ export default defineComponent({
       this.dialogTitle = "CREATE PATIENT CF4";
       this.patientInfo = data
     },
-    cloiseCF4ConfirmDialog(data) {
+    closeCF4ConfirmDialog(data) {
       this.cf4Modal = false
     }
   }
