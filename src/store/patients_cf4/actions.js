@@ -68,7 +68,7 @@ export async function getCf4ReasonForAdmission(context, payload) {
   try {
     console.log('pNo: ', payload)
     const response = await axios.get(`${this.state.patientsCf4.apiUrl}/cf4_reason_for_admission?patientNo=${payload}`)
-    console.log('response ROA: ', response)
+    console.log('response ROA: ', response.data[0])
     context.commit('setCf4ReasonForAdmission', response.data[0])
 
     return response
@@ -92,7 +92,7 @@ export async function updateCf4PatientData(context, payload) {
 export async function updateCf4ReasonForAdmission(context, payload) {
   try {
     console.log('edit cf4 reason for admission: ', payload)
-    const response = await axios.put(`${this.state.patientsCf4.apiUrl}/update_reason_for_admission/${payload.id}`, payload)
+    const response = await axios.put(`${this.state.patientsCf4.apiUrl}/update_cf4_reason_for_admission/${payload.id}`, payload)
     console.log('result: ', response.data)
 
     return response
