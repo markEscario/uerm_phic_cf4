@@ -78,7 +78,8 @@
         <div class="row q-ml-md pssa-cb">
           <div class="col-md-6 q-ml-md">
             <div class="text-caption text-weight-bold text-uppercase q-mt-lg">
-              <q-select filled v-model="v_psas" multiple :options="options" label="SELECT" style="width: 850px" />
+              <q-select filled v-model="cf4ReasonForAdmission.pertinent_signs_and_symptoms" multiple :options="options"
+                label="SELECT" style="width: 850px" />
             </div>
           </div>
         </div>
