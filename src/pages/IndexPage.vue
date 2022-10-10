@@ -19,6 +19,12 @@
     </q-form>
   </div>
   <q-separator class="q-ml-md q-mr-md" />
+  <div clas="row q-pa-xl">
+    <div class="col-md-3">
+      <q-toggle v-model="tableView" size="xl" icon="table_view" />
+    </div>
+  </div>
+
   <div class="row container-pos" style="width: 1400px;">
     <div class="col-md-3 q-pa-lg" v-for="resultPatient in paginatePatients" :key="resultPatient">
       <q-toolbar class="bg-primary text-white shadow-2">
@@ -84,6 +90,23 @@
     <q-pagination v-model="page" :min="currentPage" :max="Math.ceil(resultPatients.length / totalPages)" :input="true"
       input-class="text-orange-10" size="2em" />
   </div>
+  <div class="row q-pa-lg">
+    <div class="col-md-12">
+      <q-table title="PATIENTS" :rows="searchedPatients" :columns="columns" :filter="filter" :loading="loading"
+        row-key="title">
+        <template v-slot:body-cell-actions="props">
+          <q-td :props="props">
+            <q-btn v-if="props.row.CF4_STATUS" label="UPDATE CF4" size="sm" color="green"
+              @click="getPatientDetails(props.row.PATIENTNO[0])" class="q-mr-sm" />
+            <q-btn unelevated v-else color="red" size="sm" label="CREATE CF4" @click="createCF4Confirm(props.row)" />
+          </q-td>
+        </template>
+        <template #loading>
+          <q-inner-loading showing color="primary" size="90px" />
+        </template>
+      </q-table>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -100,6 +123,8 @@ export default defineComponent({
   setup() {
     const inputRef = ref(null);
     return {
+      columns,
+      blueModel: ref(true),
       filter: ref(""),
       inputRef,
       visible: ref(false),
@@ -120,6 +145,7 @@ export default defineComponent({
       search: {
         filterPatient: ""
       },
+      tableView: false,
       cf4Modal: false,
       dialogTitle: "",
       pDetails: {},
@@ -127,7 +153,7 @@ export default defineComponent({
       page: 1,
       currentPage: 1,
       nextPage: null,
-      totalPages: 8,
+      totalPages: 12,
       pageStatus: "",
       filterMessage: "",
       resultPatients: [],
@@ -139,7 +165,6 @@ export default defineComponent({
   },
   computed: {
     ...mapGetters({
-      employees: "patientsCf4/patients",
       searchStatus: "patientsCf4/searchStatus",
       patientDetails: "patientsCf4/patientDetails",
       searchedPatients: "patientsCf4/searchedPatients",
@@ -163,6 +188,7 @@ export default defineComponent({
             this.resultPatients = this.searchedPatients;
             result.data.length <= 0 ? this.filterMessage = CONSTANTS.FILTER_ERROR : "";
             this.visible = false;
+            this.tableView = true
           }, 1000)
           : this.pageStatus = CONSTANTS.API_ERROR;
       }
@@ -180,6 +206,61 @@ export default defineComponent({
     }
   }
 })
+
+const columns = [
+  {
+    name: 'PATIENT NO',
+    required: true,
+    label: 'PATIENT NO',
+    align: 'left',
+    field: row => row.PATIENTNO[0],
+    format: val => `${val}`,
+    sortable: true
+  },
+  {
+    name: 'CASE NO',
+    align: 'left',
+    label: 'CASE NO',
+    field: 'CASENO',
+    sortable: true
+  },
+  {
+    name: 'LAST NAME',
+    align: 'left',
+    label: 'LAST NAME',
+    field: 'LASTNAME',
+    sortable: true
+  },
+  {
+    name: 'FIRST NAME',
+    align: 'left',
+    label: 'FIRST NAME',
+    field: 'FIRSTNAME',
+    sortable: true
+  },
+  {
+    name: 'DATE ADMITTED',
+    align: 'left',
+    label: 'DATE ADMITTED',
+    field: 'DATEAD',
+    sortable: true
+  },
+  {
+    name: 'DATE DISCHARGED',
+    align: 'left',
+    label: 'DATE DISCHARGED',
+    field: 'DATEDIS',
+    sortable: true
+  },
+  {
+    name: 'actions',
+    align: 'center',
+    label: 'ACTION',
+    field: 'actions',
+    sortable: false
+  }
+]
+const loading = ref(true)
 </script>
 <style scoped>
 .q-input {

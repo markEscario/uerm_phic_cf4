@@ -21,23 +21,27 @@
       <q-form @submit="submitUpdateCf4PData" class="q-gutter-md" ref="form">
         <div class="row" style="max-width: 1800px">
           <div class="col-md-12 q-ml-md">
+            <q-input class="text-uppercase" outlined v-model="cf4PatientData.chief_complaint" autogrow
+              label="CHEIF COMPLAINT" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
+          </div>
+          <div class="col-md-12 q-ml-md">
             <q-input class="text-uppercase" outlined v-model="cf4PatientData.admitting_diagnosis" autogrow
-              hint="ADMITTING DIAGNOSIS" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
+              label="ADMITTING DIAGNOSIS" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
           </div>
           <q-space class="q-mb-md" />
           <div class="col-md-12 q-ml-md">
             <q-input class="text-uppercase" outlined v-model="cf4PatientData.discharge_diagnosis" autogrow
-              hint="DISCHARGE DIAGNOSIS" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
+              label="DISCHARGE DIAGNOSIS" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
           </div>
           <div class="col-md-2 q-ml-md">
             <q-space class="q-mb-md" />
             <q-input class="text-uppercase" outlined v-model="cf4PatientData.a_first_case_rate"
-              hint="FIRST CASE RATE" />
+              label="FIRST CASE RATE" />
           </div>
           <div class="col-md-2 q-ml-md">
             <q-space class="q-mb-md" />
             <q-input class="text-uppercase" outlined v-model="cf4PatientData.a_second_case_rate"
-              hint="SECOND CASE RATE" />
+              label="SECOND CASE RATE" />
           </div>
         </div>
         <div class="row q-pa-md">
@@ -84,6 +88,7 @@ export default defineComponent({
           this.cf4PatientData.id = val.id
           this.cf4PatientData.patient_no = val.patient_no
           this.cf4PatientData.case_no = val.case_no
+          this.cf4PatientData.chief_complaint = val.chief_complaint
           this.cf4PatientData.admitting_diagnosis = val.admitting_diagnosis
           this.cf4PatientData.discharge_diagnosis = val.discharge_diagnosis
           this.cf4PatientData.a_first_case_rate = val.a_first_case_rate
@@ -93,6 +98,7 @@ export default defineComponent({
           this.cf4PatientData.id = ''
           this.cf4PatientData.patient_no = ''
           this.cf4PatientData.case_no = ''
+          this.cf4PatientData.chief_complaint = ''
           this.cf4PatientData.admitting_diagnosis = ''
           this.cf4PatientData.discharge_diagnosis = ''
           this.cf4PatientData.a_first_case_rate = ''
@@ -109,6 +115,7 @@ export default defineComponent({
         id: this.cf4PatientData.id,
         patient_no: this.cf4PatientData.patient_no,
         case_no: this.cf4PatientData.case_no,
+        chief_complaint: this.cf4PatientData.chief_complaint,
         admitting_diagnosis: this.cf4PatientData.admitting_diagnosis,
         discharge_diagnosis: this.cf4PatientData.discharge_diagnosis,
         a_first_case_rate: this.cf4PatientData.a_first_case_rate,

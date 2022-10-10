@@ -21,53 +21,20 @@
         <div class="row">
 
           <div class="col-md-6">
-            <label class="text-weight-bold">1. Name of Patient</label>
-            <q-space />
-            <div class="row">
-              <div class="col-md-3">
-                {{ patientDetails.LASTNAME }}
-                <q-space />
-                <label class="text-caption text-weight-bold">LASTNAME</label>
-              </div>
-              <div class="col-md-3">
-                {{ patientDetails.FIRSTNAME }}
-                <q-space />
-                <label class="text-caption text-weight-bold">FIRSTNAME</label>
-              </div>
-              <div class="col-md-3">
-                {{ patientDetails.MIDDLENAME }}
-                <q-space />
-                <label class="text-caption text-weight-bold">MIDDLENAME</label>
-              </div>
-            </div>
-
+            <label class="text-weight-bold">Name of Patient: </label>
+            {{ patientDetails.FIRSTNAME }} {{ patientDetails.LASTNAME }}, {{ patientDetails.MIDDLENAME }}
           </div>
           <div class="col-md-2">
-            <label class="text-weight-bold">2. PIN</label>
-            <q-space />
-            <div class="row">
-              <div class="col-md-3">
-                {{ Array.isArray(patientDetails.PATIENTNO) ? patientDetails.PATIENTNO[0] : patientDetails.PATIENTNO }}
-              </div>
-            </div>
+            <label class="text-weight-bold">PIN:</label>
+            {{ Array.isArray(patientDetails.PATIENTNO) ? patientDetails.PATIENTNO[0] : patientDetails.PATIENTNO }}
           </div>
           <div class="col-md-2">
-            <label class="text-weight-bold">3. Age</label>
-            <q-space />
-            <div class="row">
-              <div class="col-md-3">
-                {{ Array.isArray(patientDetails.AGE) ? patientDetails.AGE[0] : patientDetails.AGE }}
-              </div>
-            </div>
+            <label class="text-weight-bold">Age:</label>
+            {{ Array.isArray(patientDetails.AGE) ? patientDetails.AGE[0] : patientDetails.AGE }}
           </div>
           <div class="col-md-2">
-            <label class="text-weight-bold">3. SEX</label>
-            <q-space />
-            <div class="row">
-              <div class="col-md-3">
-                {{ patientDetails.SEX }}
-              </div>
-            </div>
+            <label class="text-weight-bold">SEX:</label>
+            {{ patientDetails.SEX }}
           </div>
 
         </div>
@@ -77,7 +44,7 @@
           <div class="col-md-3">
             <label class="text-weight-bold">5. Chief Complaint</label>
             <q-space />
-            {{ patientDetails.CC }}
+            {{ cf4PD.CHIEF_COMPLAINT }}
           </div>
         </div>
         <q-space class="q-pa-sm" />
@@ -174,6 +141,7 @@ export default defineComponent({
         id: 0,
         patient_no: '',
         case_no: '',
+        chief_complaint: '',
         admitting_diagnosis: '',
         discharge_diagnosis: '',
         a_first_case_rate: '',
@@ -207,6 +175,7 @@ export default defineComponent({
         id: data.ID,
         patient_no: data.PATIENT_NO,
         case_no: data.CASE_NO,
+        chief_complaint: data.CHIEF_COMPLAINT,
         admitting_diagnosis: data.AD_DIAGNOSIS,
         discharge_diagnosis: data.DIS_DIAGNOSIS,
         a_first_case_rate: data.AFIRST_CASE_RATE,

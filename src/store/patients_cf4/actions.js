@@ -81,7 +81,7 @@ export async function updateCf4PatientData(context, payload) {
   try {
     console.log('edit cf4 p data: ', payload)
     const response = await axios.put(`${this.state.patientsCf4.apiUrl}/update_cf4_patient_data/${payload.id}`, payload)
-    console.log('result: ', response.data)
+    console.log('resultx: ', response.data)
 
     return response
   } catch (err) {

@@ -22,13 +22,13 @@
         <div class="row" style="max-width: 1800px">
           <div class="col-md-12 q-ml-md">
             <q-input class="text-uppercase" outlined v-model="cf4ReasonForAdmission.history_of_present_illness" autogrow
-              hint="HISTORY OF PRESENT ILLNESS" lazy-rules
+              label="HISTORY OF PRESENT ILLNESS" lazy-rules
               :rules="[val => val && val.length > 0 || 'This is required']" />
           </div>
           <q-space class="q-mb-md" />
           <div class="col-md-12 q-ml-md">
             <q-input class="text-uppercase" outlined v-model="cf4ReasonForAdmission.pertinent_past_medical_history"
-              autogrow hint="PERTINENT PAST MEDICAL HISTORY" lazy-rules
+              autogrow label="PERTINENT PAST MEDICAL HISTORY" lazy-rules
               :rules="[val => val && val.length > 0 || 'This is required']" />
           </div>
 
@@ -64,7 +64,7 @@
             <q-input outlined v-model="cf4ReasonForAdmission.lmp" hint="LMP" />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox size="xl" v-model="cf4ReasonForAdmission.ob_na" @click="checkObNA" label="NA" />
+            <q-checkbox size="xl" v-model="cf4ReasonForAdmission.ob_na" label="NA" />
           </div>
         </div>
 
@@ -78,7 +78,7 @@
         <div class="row q-ml-md pssa-cb">
           <div class="col-md-6 q-ml-md">
             <div class="text-caption text-weight-bold text-uppercase q-mt-lg">
-              <q-select filled v-model="cf4ReasonForAdmission.pertinent_signs_and_symptoms" multiple :options="options"
+              <q-select filled v-model="cf4ReasonForAdmission.pertinent_signs_and_symptoms" multiple :options="psas"
                 label="SELECT" style="width: 850px" />
             </div>
           </div>
@@ -89,8 +89,8 @@
             <div class="text-caption text-weight-bold text-uppercase q-mt-lg">4. Referred from another health care
               institution (HCI):</div>
             <div class="col-md-4 q-ml-md">
-              <q-checkbox size="xl" v-model="no_rhci" label="No" />
-              <q-checkbox size="xl" v-model="yes_rhci" label="Yes (Specify the Reason)" />
+              <q-checkbox size="xl" v-model="cf4ReasonForAdmission.rhci_no" label="No" />
+              <q-checkbox size="xl" v-model="cf4ReasonForAdmission.rhci_yes" label="Yes (Specify the Reason)" />
             </div>
           </div>
         </div>
@@ -112,8 +112,8 @@
         <div class="row q-ml-md q-mt-xs">
           <div class="col-md-3 q-ml-md">
             General Survey
-            <q-checkbox size="xl" v-model="awake_and_alert" /> Awake and Alert
-            <q-checkbox size="xl" v-model="altered_sensorium" /> Altered Sensorium
+            <q-checkbox size="xl" v-model="cf4ReasonForAdmission.awake_and_alert" /> Awake and Alert
+            <q-checkbox size="xl" v-model="cf4ReasonForAdmission.altered_sensorium" /> Altered Sensorium
           </div>
           <div class="col-md-2 q-ml-md">
             <q-input v-model="cf4ReasonForAdmission.altered_sensorium_data" />
@@ -273,15 +273,12 @@ export default defineComponent({
   props: ['eReasonForAdmissionDialog', 'pInfo', 'cf4RForAdmission', 'dTitle'],
   setup() {
     return {
-      v_ob_na: ref(false),
       no_rhci: ref(false),
       yes_rhci: ref(false),
-      awake_and_alert: ref(false),
-      altered_sensorium: ref(false),
-      v_psas: ref(null),
       v_heent: ref(null),
       v_chest_lungs: ref(null),
       v_cvs: ref(null),
+      v_psas: ref(null),
       v_abdomen: ref(null),
       v_gu: ref(null),
       v_skin: ref(null),
@@ -290,6 +287,7 @@ export default defineComponent({
   },
   data() {
     return {
+      ob_check: false,
       cf4ReasonForAdmission: {
         id: '',
         patient_no: '',
@@ -310,13 +308,13 @@ export default defineComponent({
         psas_other: '',
         psas_other_desc: '',
         referred_to_another_hci: '',
-        rhci_yes: '',
-        rhci_no: '',
+        rhci_yes: false,
+        rhci_no: false,
         specify_reason: '',
         originating_hci: '',
         general_survey: '',
-        awake_and_alert: '',
-        altered_sensorium: '',
+        awake_and_alert: false,
+        altered_sensorium: false,
         altered_sensorium_data: '',
         p_height: '',
         p_weight: '',
@@ -345,7 +343,7 @@ export default defineComponent({
       submitAlert: false,
       updatePatientDataMsg: CONSTANTS.FORM_UPDATE_PATIENT_DATA_MESSAGE,
       updateReasonForAdmissionMsg: CONSTANTS.FORM_UPDATE_REASON_FOR_ADMISSION_MESSAGE,
-      options: [
+      psas: [
         'Altered mental sensorium',
         'Diarrhea',
         'Hematemesis',
@@ -468,14 +466,14 @@ export default defineComponent({
           this.cf4ReasonForAdmission.ob_4 = val.ob_4
           this.cf4ReasonForAdmission.lmp = val.lmp
           this.cf4ReasonForAdmission.ob_na = val.ob_na
-          this.cf4ReasonForAdmission.pertinent_signs_and_symptoms = val.pertinent_signs_and_symptoms
+          this.cf4ReasonForAdmission.pertinent_signs_and_symptoms = new Array(val.pertinent_signs_and_symptoms)
           this.cf4ReasonForAdmission.pain = val.pain
           this.cf4ReasonForAdmission.pain_site = val.pain_site
           this.cf4ReasonForAdmission.psas_other = val.psas_other
           this.cf4ReasonForAdmission.psas_other_desc = val.psas_other_desc
           this.cf4ReasonForAdmission.referred_to_another_hci = val.referred_to_another_hci
           this.cf4ReasonForAdmission.rhci_yes = val.rhci_yes,
-            this.cf4ReasonForAdmission.rhci_no = val.rchi_no,
+            this.cf4ReasonForAdmission.rhci_no = val.rhci_no,
             this.cf4ReasonForAdmission.specify_reason = val.specify_reason
           this.cf4ReasonForAdmission.originating_hci = val.originating_hci
           this.cf4ReasonForAdmission.general_survey = val.general_survey
@@ -491,6 +489,7 @@ export default defineComponent({
           this.cf4ReasonForAdmission.heent = val.heent
           this.cf4ReasonForAdmission.heent_others = val.heent_others
           this.cf4ReasonForAdmission.chest_lungs = val.chest_lungs
+          this.cf4ReasonForAdmission.chest_lungs = val.chest_lungs_others
           this.cf4ReasonForAdmission.cvs = val.cvs
           this.cf4ReasonForAdmission.cvs_others = val.cvs_others
           this.cf4ReasonForAdmission.abdomen = val.abdomen
@@ -576,7 +575,7 @@ export default defineComponent({
         ob_4: this.cf4ReasonForAdmission.ob_4,
         lmp: this.cf4ReasonForAdmission.lmp,
         ob_na: this.cf4ReasonForAdmission.ob_na,
-        pertinent_signs_and_symptoms: this.v_psas,
+        pertinent_signs_and_symptoms: this.cf4ReasonForAdmission.pertinent_signs_and_symptoms,
         pain: this.cf4ReasonForAdmission.pain,
         pain_site: this.cf4ReasonForAdmission.pain_site,
         psas_other: this.cf4ReasonForAdmission.psas_other,
@@ -618,15 +617,15 @@ export default defineComponent({
       result.status === 200 ? (() => { this.submitAlert = true; })() : null
       // var array = JSON.parse("[" + string + "]");
     },
-    checkObNA() {
-      this.cf4ReasonForAdmission.ob_na = TRUE
+    checkObNa() {
+      alert(this.cf4ReasonForAdmission.ob_na)
     },
     submitUpdateCf4ReasonForAdmission() {
       this.updateCf4ReasonForAdmission()
       setTimeout(() => {
         this.submitAlert = false
         this.close()
-        // this.$router.go()
+        this.$router.go()
       }, 3000)
     },
     close() {
