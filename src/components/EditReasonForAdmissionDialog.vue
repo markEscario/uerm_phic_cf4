@@ -152,7 +152,8 @@
         <div class="row q-ml-md pssa-cb">
           <div class="col-md-6 q-ml-md">
             <div class="text-caption text-weight-bold text-uppercase q-mt-lg">
-              <q-select filled v-model="v_heent" multiple :options="heents" label="HEENT" style="width: 850px" />
+              <q-select filled v-model="cf4ReasonForAdmission.heent" multiple :options="heents" label="HEENT"
+                style="width: 850px" />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
@@ -253,18 +254,15 @@
         <q-space class="q-mb-lg" />
         <div class="row q-pa-md">
           <q-btn class="q-mr-md" label="Update" type="submit" color="primary" />
+          <q-btn label="Close" @click="close" color="grey" v-close-popup />
         </div>
       </q-form>
-      <q-card-actions align="right" class="bg-white text-teal">
-        <q-btn flat label="Close" @click="close" v-close-popup />
-      </q-card-actions>
-
-      <q-space class="q-mb-sm" />
       <q-space class="q-mb-xl" />
     </q-card>
   </q-dialog>
 </template>
 <script>
+import { cf4ReasonForAdmission } from 'src/store/patients_cf4/getters'
 import { defineComponent, ref } from 'vue'
 import CONSTANTS from '../constants'
 
@@ -275,7 +273,7 @@ export default defineComponent({
     return {
       no_rhci: ref(false),
       yes_rhci: ref(false),
-      v_heent: ref(null),
+      v_heent: ref([]),
       v_chest_lungs: ref(null),
       v_cvs: ref(null),
       v_psas: ref(null),
@@ -486,7 +484,7 @@ export default defineComponent({
           this.cf4ReasonForAdmission.vital_sign_hr = val.vital_sign_hr
           this.cf4ReasonForAdmission.vital_sign_rr = val.vital_sign_rr
           this.cf4ReasonForAdmission.vital_sign_temp = val.vital_sign_temp
-          this.cf4ReasonForAdmission.heent = val.heent
+          this.cf4ReasonForAdmission.heent = new Array(val.heent)
           this.cf4ReasonForAdmission.heent_others = val.heent_others
           this.cf4ReasonForAdmission.chest_lungs = val.chest_lungs
           this.cf4ReasonForAdmission.chest_lungs = val.chest_lungs_others

@@ -46,15 +46,11 @@
         </div>
         <div class="row q-pa-md">
           <q-btn class="q-mr-md" label="Update" type="submit" color="primary" />
+          <q-btn label="Close" @click="close" color="grey" v-close-popup />
 
         </div>
       </q-form>
-      <q-card-actions align="right" class="bg-white text-teal">
-        <q-btn flat label="Close" @click="close" v-close-popup />
-      </q-card-actions>
 
-      <q-space class="q-mb-sm" />
-      <q-space class="q-mb-xl" />
     </q-card>
   </q-dialog>
 </template>

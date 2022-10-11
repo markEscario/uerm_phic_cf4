@@ -21,11 +21,27 @@
   <q-separator class="q-ml-md q-mr-md" />
   <div clas="row q-pa-xl">
     <div class="col-md-3">
-      <q-toggle v-model="tableView" size="xl" icon="table_view" />
+      <q-toggle v-if="showToggle" size="xl" v-model="tableView" icon="table_view" />
     </div>
   </div>
-
-  <div class="row container-pos" style="width: 1400px;">
+  <div v-if="tableView" class="row q-pa-lg">
+    <div class="col-md-12">
+      <q-table title="PATIENTS" :rows="searchedPatients" :columns="columns" :filter="filter" :loading="loading"
+        row-key="title">
+        <template v-slot:body-cell-actions="props">
+          <q-td :props="props">
+            <q-btn v-if="props.row.CF4_STATUS" label="UPDATE CF4" size="sm" color="green"
+              @click="getPatientDetails(props.row.PATIENTNO[0])" class="q-mr-sm" />
+            <q-btn unelevated v-else color="red" size="sm" label="CREATE CF4" @click="createCF4Confirm(props.row)" />
+          </q-td>
+        </template>
+        <template #loading>
+          <q-inner-loading showing color="primary" size="90px" />
+        </template>
+      </q-table>
+    </div>
+  </div>
+  <div v-else class="row container-pos" style="width: 1400px;">
     <div class="col-md-3 q-pa-lg" v-for="resultPatient in paginatePatients" :key="resultPatient">
       <q-toolbar class="bg-primary text-white shadow-2">
         <q-toolbar-title>
@@ -68,6 +84,10 @@
         </q-item>
       </q-list>
     </div>
+    <div v-if="resultPatients.length >= 5" class="q-pa-lg col-md-10 page-pos">
+      <q-pagination v-model="page" :min="currentPage" :max="Math.ceil(resultPatients.length / totalPages)" :input="true"
+        input-class="text-orange-10" size="2em" />
+    </div>
   </div>
   <q-inner-loading :showing="visible" class="q-mr-xl">
     <q-spinner color="primary" size="8em" /> {{ loadingLabel }}
@@ -86,27 +106,11 @@
       </template>
     </q-banner>
   </div>
-  <div v-if="resultPatients.length >= 5" class="q-pa-lg flex flex-center">
+  <!-- <div v-if="resultPatients.length >= 5" class="q-pa-lg flex flex-center">
     <q-pagination v-model="page" :min="currentPage" :max="Math.ceil(resultPatients.length / totalPages)" :input="true"
       input-class="text-orange-10" size="2em" />
-  </div>
-  <div class="row q-pa-lg">
-    <div class="col-md-12">
-      <q-table title="PATIENTS" :rows="searchedPatients" :columns="columns" :filter="filter" :loading="loading"
-        row-key="title">
-        <template v-slot:body-cell-actions="props">
-          <q-td :props="props">
-            <q-btn v-if="props.row.CF4_STATUS" label="UPDATE CF4" size="sm" color="green"
-              @click="getPatientDetails(props.row.PATIENTNO[0])" class="q-mr-sm" />
-            <q-btn unelevated v-else color="red" size="sm" label="CREATE CF4" @click="createCF4Confirm(props.row)" />
-          </q-td>
-        </template>
-        <template #loading>
-          <q-inner-loading showing color="primary" size="90px" />
-        </template>
-      </q-table>
-    </div>
-  </div>
+  </div> -->
+
 </template>
 
 <script>
@@ -123,6 +127,7 @@ export default defineComponent({
   setup() {
     const inputRef = ref(null);
     return {
+      loading,
       columns,
       blueModel: ref(true),
       filter: ref(""),
@@ -145,6 +150,7 @@ export default defineComponent({
       search: {
         filterPatient: ""
       },
+      showToggle: false,
       tableView: false,
       cf4Modal: false,
       dialogTitle: "",
@@ -187,8 +193,9 @@ export default defineComponent({
           setTimeout(() => {
             this.resultPatients = this.searchedPatients;
             result.data.length <= 0 ? this.filterMessage = CONSTANTS.FILTER_ERROR : "";
-            this.visible = false;
-            this.tableView = true
+            this.visible = false
+            this.loading = false
+            this.showToggle = true
           }, 1000)
           : this.pageStatus = CONSTANTS.API_ERROR;
       }
@@ -271,6 +278,12 @@ const loading = ref(true)
   margin-left: auto;
   margin-right: auto;
   width: 50%;
+}
+
+.page-pos {
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
 }
 
 .avatar-margin {

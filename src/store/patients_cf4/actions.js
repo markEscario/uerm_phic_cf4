@@ -69,6 +69,10 @@ export async function getCf4ReasonForAdmission(context, payload) {
     console.log('pNo: ', payload)
     const response = await axios.get(`${this.state.patientsCf4.apiUrl}/cf4_reason_for_admission?patientNo=${payload}`)
     console.log('response ROA: ', response.data[0])
+    for (const item of response.data) {
+      item['RHCI_YES'] === 'true' ? true : false
+      item['RHCI_NO'] === 'true' ? true : false
+    }
     context.commit('setCf4ReasonForAdmission', response.data[0])
 
     return response

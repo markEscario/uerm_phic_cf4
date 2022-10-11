@@ -19,8 +19,7 @@
     <q-card>
       <q-card-section>
         <div class="row">
-
-          <div class="col-md-6">
+          <div class="col-md-3">
             <label class="text-weight-bold">Name of Patient: </label>
             {{ patientDetails.FIRSTNAME }} {{ patientDetails.LASTNAME }}, {{ patientDetails.MIDDLENAME }}
           </div>
@@ -33,85 +32,68 @@
             {{ Array.isArray(patientDetails.AGE) ? patientDetails.AGE[0] : patientDetails.AGE }}
           </div>
           <div class="col-md-2">
-            <label class="text-weight-bold">SEX:</label>
+            <label class="text-weight-bold">Sex:</label>
             {{ patientDetails.SEX }}
           </div>
-
+          <div class="col-md-2">
+            <label class="text-weight-bold">Date Admitted:</label>
+            {{ patientDetails.DATEAD ? moment(patientDetails.DATEAD.substr(0, 10)).format('MMMM d, YYYY') :
+            patientDetails.DATEAD }}
+          </div>
         </div>
         <q-space class="q-pa-sm" />
-
         <div class="row">
           <div class="col-md-3">
-            <label class="text-weight-bold">5. Chief Complaint</label>
+            <label class="text-weight-bold">Time Admitted: </label>
+            {{ patientDetails.DATEAD ? moment(patientDetails.DATEAD).format('hh:mm A') :
+            patientDetails.DATEAD }}
+          </div>
+          <div class="col-md-2">
+            <label class="text-weight-bold">Date Discharged:</label>
+            {{ patientDetails.DATEDIS ? moment(patientDetails.DATEDIS.substr(0, 10)).format('MMMM d, YYYY')
+            :
+            patientDetails.DATEDIS }}
+          </div>
+          <div class="col-md-2">
+            <label class="text-weight-bold">Time Discharged:</label>
+            {{ patientDetails.DATEAD ? moment(patientDetails.DATEDIS).format('hh:mm A') :
+            patientDetails.DATEDIS }}
+          </div>
+          <div class="col-md-2">
+            <label class="text-weight-bold">1st Case Rate:</label>
+            {{ cf4PD.AFIRST_CASE_RATE }}
+          </div>
+          <div class="col-md-2">
+            <label class="text-weight-bold">2nd Case Rate</label>
+            {{ cf4PD.ASECOND_CASE_RATE }}
+          </div>
+        </div>
+        <q-space class="q-pa-md" />
+        <div class="row">
+          <div class="col-md-6">
+            <label class="text-weight-bold">Chief Complaint:</label>
             <q-space />
             {{ cf4PD.CHIEF_COMPLAINT }}
           </div>
         </div>
         <q-space class="q-pa-sm" />
         <div class="row">
-          <div class="col-md-4">
-            <label class="text-weight-bold">6. Admitting Diagnosis</label>
+          <div class="col-md-5">
+            <label class="text-weight-bold">Admitting Diagnosis:</label>
             <q-space />
             <div class="text-uppercase">
               {{ cf4PD.AD_DIAGNOSIS }}
             </div>
           </div>
-          <div class="col-md-4">
-            <label class="text-weight-bold">7. Discharge Diagnosis</label>
+        </div>
+        <q-space class="q-mb-lg" />
+        <div class="row">
+          <div class="col-md-6">
+            <label class="text-weight-bold">Discharge Diagnosis:</label>
             <q-space />
             <div class="text-uppercase">
               {{ cf4PD.DIS_DIAGNOSIS }}
             </div>
-          </div>
-          <div class="col-md-2">
-            <label class="text-weight-bold">8 a. 1st Case Rate Code </label>
-            <q-space />
-            <div class="text-uppercase">
-              {{ cf4PD.AFIRST_CASE_RATE }}
-            </div>
-          </div>
-          <div class="col-md-2">
-            <label class="text-weight-bold">8 a. 2nd Case Rate Code </label>
-            <q-space />
-            <div class="text-uppercase">
-              {{ cf4PD.ASECOND_CASE_RATE }}
-            </div>
-          </div>
-        </div>
-
-        <q-space class="q-pa-sm" />
-
-        <div class="row">
-          <div class="col-md-3">
-            <label class="text-weight-bold">9. a. Date Admitted </label>
-            <q-space />
-            {{ patientDetails.DATEAD ? moment(patientDetails.DATEAD.substr(0, 10)).format('MMMM d, YYYY') :
-            patientDetails.DATEAD }}
-
-          </div>
-
-          <div class="col-md-3">
-            <label class="text-weight-bold">9. b. Time Admitted </label>
-            <q-space />
-            {{ patientDetails.DATEAD ? moment(patientDetails.DATEAD).format('hh:mm A') :
-            patientDetails.DATEAD }}
-          </div>
-
-        </div>
-        <div class="row">
-          <div class="col-md-3">
-            <label class="text-weight-bold">9. a. Date Discharged </label>
-            <q-space />
-            {{ patientDetails.DATEDIS ? moment(patientDetails.DATEDIS.substr(0, 10)).format('MMMM d, YYYY')
-            :
-            patientDetails.DATEDIS }}
-          </div>
-
-          <div class="col-md-3">
-            <label class="text-weight-bold">9. b. Time Discharged </label>
-            <q-space />
-            {{ patientDetails.DATEAD ? moment(patientDetails.DATEDIS).format('hh:mm A') :
-            patientDetails.DATEDIS }}
           </div>
         </div>
 
