@@ -382,7 +382,8 @@
           <div class="col-md-4">
             <q-space class="q-mb-sm" />
             <label class="text-weight-bold">General Survey</label>
-            <q-checkbox v-if="cf4RFA.AWAKE_AND_ALERT === 'true'" v-model="checker" size="xl" label="Awake and Alert" />
+            <q-checkbox v-if="cf4RFA.AWAKE_AND_ALERT === 'true'" v-model="checker" size="xl" label="Awake and Alert"
+              disable />
             <q-checkbox v-else v-model="cBox" size="xl" label="Awake and Alert" disable />
             <q-checkbox v-if="cf4RFA.ALTERED_SENSORIUM === 'true'" v-model="checker" size="xl"
               label="Altered Sensorium" />
@@ -492,25 +493,25 @@
           </div>
           <div class="col-md-2 q-ml-md">
             <div class="text-caption text-uppercase">
-              <q-checkbox v-if="Object.values(pPsas).includes('Essentially normal')" size="xl" v-model="checker"
+              <q-checkbox v-if="Object.values(pChest).includes('Essentially normal')" size="xl" v-model="checker"
                 val="Essentially normal" label="Essentially normal" disable />
               <q-checkbox v-else size="xl" v-model="cBox" val="Essentially normal" label="Essentially normal" disable />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Asymmetrical chest expansion')" size="xl" v-model="checker"
-              val="Asymmetrical chest expansion" label="Asymmetrical chest expansion" disable />
+            <q-checkbox v-if="Object.values(pChest).includes('Asymmetrical chest expansion')" size="xl"
+              v-model="checker" val="Asymmetrical chest expansion" label="Asymmetrical chest expansion" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Asymmetrical chest expansion"
               label="Asymmetrical chest expansion" disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Decreased breath sounds')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pChest).includes('Decreased breath sounds')" size="xl" v-model="checker"
               val="Decreased breath sounds" label="Decreased breath sounds" disabled />
             <q-checkbox v-else size="xl" v-model="cBox" val="Decreased breath sounds" label="Decreased breath sounds"
               disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Wheezes')" size="xl" v-model="checker" val="Wheezes"
+            <q-checkbox v-if="Object.values(pChest).includes('Wheezes')" size="xl" v-model="checker" val="Wheezes"
               label="Wheezes" disabled />
             <q-checkbox v-else size="xl" v-model="cBox" val="Wheezes" label="Wheezes" disable />
           </div>
@@ -523,20 +524,20 @@
           </div>
           <div class="col-md-2 q-ml-md">
             <div class="text-caption text-uppercase">
-              <q-checkbox v-if="Object.values(pPsas).includes('Lump/s over breast(s)')" size="xl" v-model="checker"
+              <q-checkbox v-if="Object.values(pChest).includes('Lump/s over breast(s)')" size="xl" v-model="checker"
                 val="Lump/s over breast(s)" label="Lump/s over breast(s)" disable />
               <q-checkbox v-else size="xl" v-model="cBox" val="Lump/s over breast(s)" label="Lump/s over breast(s)"
                 disable />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Rales/crackles/rhonchi')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pChest).includes('Rales/crackles/rhonchi')" size="xl" v-model="checker"
               val="Rales/crackles/rhonchi " label="Rales/crackles/rhonchi" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Rales/crackles/rhonchi " label="Rales/crackles/rhonchi "
               disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Intercostal rib/clavicular retraction')" size="xl"
+            <q-checkbox v-if="Object.values(pChest).includes('Intercostal rib/clavicular retraction')" size="xl"
               v-model="checker" val="Intercostal rib/clavicular retraction"
               label="Intercostal rib/clavicular retraction" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Intercostal rib/clavicular retraction"
@@ -561,25 +562,25 @@
           </div>
           <div class="col-md-2 q-ml-md">
             <div class="text-caption text-uppercase">
-              <q-checkbox v-if="Object.values(pPsas).includes('Essentially normal')" size="xl" v-model="checker"
+              <q-checkbox v-if="Object.values(pCvs).includes('Essentially normal')" size="xl" v-model="checker"
                 val="Essentially normal" label=" Essentially normal" disable />
               <q-checkbox v-else size="xl" v-model="cBox" val=" Essentially normal" label=" Essentially normal"
                 disable />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Displaced apex beat')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pCvs).includes('Displaced apex beat')" size="xl" v-model="checker"
               val="Displaced apex beat" label="Displaced apex beat" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Displaced apex beat" label="Displaced apex beat" disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Heaves and/or thrills')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pCvs).includes('Heaves and/or thrills')" size="xl" v-model="checker"
               val="Heaves and/or thrills" label="Heaves and/or thrills" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Heaves and/or thrills" label="Heaves and/or thrills"
               disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Pericardia! bulge')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pCvs).includes('Pericardia! bulge')" size="xl" v-model="checker"
               val="Pericardia! bulge" label="Pericardia! bulge" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Pericardia! bulge" label="Pericardia! bulge" disable />
           </div>
@@ -592,19 +593,19 @@
           </div>
           <div class="col-md-2 q-ml-md">
             <div class="text-caption text-uppercase">
-              <q-checkbox v-if="Object.values(pPsas).includes('Irregular rhythm')" size="xl" v-model="checker"
+              <q-checkbox v-if="Object.values(pCvs).includes('Irregular rhythm')" size="xl" v-model="checker"
                 val="Irregular rhythm" label="Irregular rhythm" disable />
               <q-checkbox v-else size="xl" v-model="cBox" val="Irregular rhythm" label="Irregular rhythm" disable />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Muffled heart sounds')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pCvs).includes('Muffled heart sounds')" size="xl" v-model="checker"
               val="Muffled heart sounds " label="Muffled heart sounds" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Muffled heart sounds " label="Muffled heart sounds "
               disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Murmur')" size="xl" v-model="checker" val="Murmur "
+            <q-checkbox v-if="Object.values(pCvs).includes('Murmur')" size="xl" v-model="checker" val="Murmur "
               label="Murmur" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Murmur" label="Murmur" disable />
           </div>
@@ -627,24 +628,24 @@
           </div>
           <div class="col-md-2 q-ml-md">
             <div class="text-caption text-uppercase">
-              <q-checkbox v-if="Object.values(pPsas).includes('Essentially normal')" size="xl" v-model="checker"
+              <q-checkbox v-if="Object.values(pAbdomen).includes('Essentially normal')" size="xl" v-model="checker"
                 val="Essentially normal" label=" Essentially normal" disable />
               <q-checkbox v-else size="xl" v-model="cBox" val=" Essentially normal" label=" Essentially normal"
                 disable />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Abdominal rigidity')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pAbdomen).includes('Abdominal rigidity')" size="xl" v-model="checker"
               val="Abdominal rigidity" label="Abdominal rigidity" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Abdominal rigidity" label="Abdominal rigidity" disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Abdomen tenderness')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pAbdomen).includes('Abdomen tenderness')" size="xl" v-model="checker"
               val="Abdomen tenderness" label="Abdomen tenderness" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Abdomen tenderness" label="Abdomen tenderness" disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Hyperactive bowel sounds')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pAbdomen).includes('Hyperactive bowel sounds')" size="xl" v-model="checker"
               val="Hyperactive bowel sounds" label="Hyperactive bowel sounds" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Hyperactive bowel sounds" label="Hyperactive bowel sounds"
               disable />
@@ -658,19 +659,19 @@
           </div>
           <div class="col-md-2 q-ml-md">
             <div class="text-caption text-uppercase">
-              <q-checkbox v-if="Object.values(pPsas).includes('Palpable mass(es)')" size="xl" v-model="checker"
+              <q-checkbox v-if="Object.values(pAbdomen).includes('Palpable mass(es)')" size="xl" v-model="checker"
                 val="Palpable mass(es)" label="Palpable mass(es)" disable />
               <q-checkbox v-else size="xl" v-model="cBox" val="Palpable mass(es)" label="Palpable mass(es)" disable />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Tympanitic/dull abdomen')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pAbdomen).includes('Tympanitic/dull abdomen')" size="xl" v-model="checker"
               val="Tympanitic/dull abdomen " label="Tympanitic/dull abdomen" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Tympanitic/dull abdomen" label="Tympanitic/dull abdomen"
               disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Uterine contraction')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pAbdomen).includes('Uterine contraction')" size="xl" v-model="checker"
               val="Uterine contraction " label="Uterine contraction" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Uterine contraction" label="Uterine contraction" disable />
           </div>
@@ -689,30 +690,30 @@
         <div class="row">
           <div class="col-md-2">
             <q-space class="q-mb-lg" />
-            <label class="vs-label text-weight-bold">GUI</label>
+            <label class="vs-label text-weight-bold">GU (IE)</label>
           </div>
           <div class="col-md-2 q-ml-md">
             <div class="text-caption text-uppercase">
-              <q-checkbox v-if="Object.values(pPsas).includes('Essentially normal')" size="xl" v-model="checker"
+              <q-checkbox v-if="Object.values(pGu).includes('Essentially normal')" size="xl" v-model="checker"
                 val="Essentially normal" label=" Essentially normal" disable />
               <q-checkbox v-else size="xl" v-model="cBox" val=" Essentially normal" label=" Essentially normal"
                 disable />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Blood stained in exam finger')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pGu).includes('Blood stained in exam finger')" size="xl" v-model="checker"
               val="Blood stained in exam finger" label="Blood stained in exam finger" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Blood stained in exam finger"
               label="Blood stained in exam finger" disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Cervical dilatation')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pGu).includes('Cervical dilatation')" size="xl" v-model="checker"
               val="Cervical dilatation" label="Cervical dilatation" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Cervical dilatation" label="Cervical dilatation" disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Presence of abnormal discharge')" size="xl"
-              v-model="checker" val="Presence of abnormal discharge" label="Presence of abnormal discharge" disable />
+            <q-checkbox v-if="Object.values(pGu).includes('Presence of abnormal discharge')" size="xl" v-model="checker"
+              val="Presence of abnormal discharge" label="Presence of abnormal discharge" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Presence of abnormal discharge"
               label="Presence of abnormal discharge" disable />
           </div>
@@ -735,24 +736,24 @@
           </div>
           <div class="col-md-2 q-ml-md">
             <div class="text-caption text-uppercase">
-              <q-checkbox v-if="Object.values(pPsas).includes(' Essentially normal')" size="xl" v-model="checker"
+              <q-checkbox v-if="Object.values(pSkin).includes('Essentially normal')" size="xl" v-model="checker"
                 val=" Essentially normal" label="  Essentially normal" disable />
               <q-checkbox v-else size="xl" v-model="cBox" val="  Essentially normal" label="Essentially normal"
                 disable />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Clubbing')" size="xl" v-model="checker" val="Clubbing"
+            <q-checkbox v-if="Object.values(pSkin).includes('Clubbing')" size="xl" v-model="checker" val="Clubbing"
               label="Clubbing" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Clubbing" label="Clubbing" disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Cold clammy skin')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pSkin).includes('Cold clammy skin')" size="xl" v-model="checker"
               val="Cold clammy skin" label="Cold clammy skin" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Cold clammy skin" label="Cold clammy skin" disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Cyanosis/mottled skin')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pSkin).includes('Cyanosis/mottled skin')" size="xl" v-model="checker"
               val="Cyanosis/mottled skin" label="Cyanosis/mottled skin" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Cyanosis/mottled skin" label="Cyanosis/mottled skin"
               disable />
@@ -766,23 +767,23 @@
           </div>
           <div class="col-md-2 q-ml-md">
             <div class="text-caption text-uppercase">
-              <q-checkbox v-if="Object.values(pPsas).includes('Edema/swelling')" size="xl" v-model="checker"
+              <q-checkbox v-if="Object.values(pSkin).includes('Edema/swelling')" size="xl" v-model="checker"
                 val="Edema/swelling" label=" Edema/swelling" disable />
               <q-checkbox v-else size="xl" v-model="cBox" val="Edema/swelling" label="Edema/swelling" disable />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Decreased mobility')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pSkin).includes('Decreased mobility')" size="xl" v-model="checker"
               val="Decreased mobility " label="Decreased mobility" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Decreased mobility" label="Decreased mobility" disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Pale nailbeds')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pSkin).includes('Pale nailbeds')" size="xl" v-model="checker"
               val="Pale nailbeds " label="Pale nailbeds" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Pale nailbeds" label="Pale nailbeds" disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Poor skin turgor')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pSkin).includes('Poor skin turgor')" size="xl" v-model="checker"
               val="Poor skin turgor " label="Poor skin turgor" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Poor skin turgor" label="Poor skin turgor" disable />
           </div>
@@ -795,13 +796,13 @@
           </div>
           <div class="col-md-2 q-ml-md">
             <div class="text-caption text-uppercase">
-              <q-checkbox v-if="Object.values(pPsas).includes('Rashes/petechiae')" size="xl" v-model="checker"
+              <q-checkbox v-if="Object.values(pSkin).includes('Rashes/petechiae')" size="xl" v-model="checker"
                 val="Rashes/petechiae" label=" Rashes/petechiae" disable />
               <q-checkbox v-else size="xl" v-model="cBox" val="Rashes/petechiae" label="Rashes/petechiae" disable />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Weak pulses')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pSkin).includes('Weak pulses')" size="xl" v-model="checker"
               val="Weak pulses " label="Weak pulses" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Weak pulses" label="Weak pulses" disable />
           </div>
@@ -824,26 +825,26 @@
           </div>
           <div class="col-md-2 q-ml-md">
             <div class="text-caption text-uppercase">
-              <q-checkbox v-if="Object.values(pPsas).includes('Essentially normal')" size="xl" v-model="checker"
+              <q-checkbox v-if="Object.values(pNeuroExam).includes('Essentially normal')" size="xl" v-model="checker"
                 val="Essentially normal" label=" Essentially normal" disable />
               <q-checkbox v-else size="xl" v-model="cBox" val=" Essentially normal" label=" Essentially normal"
                 disable />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Abnormal gait')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pNeuroExam).includes('Abnormal gait')" size="xl" v-model="checker"
               val="Abnormal gait" label="Abnormal gait" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Abnormal gait" label="Abnormal gait" disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Abnormal position sense')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pNeuroExam).includes('Abnormal position sense')" size="xl" v-model="checker"
               val="Abnormal position sense" label="Abnormal position sense" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Abnormal position sense" label="Abnormal position sense"
               disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Abnormal/decreased sensation')" size="xl" v-model="checker"
-              val="Abnormal/decreased sensation" label="Abnormal/decreased sensation" disable />
+            <q-checkbox v-if="Object.values(pNeuroExam).includes('Abnormal/decreased sensation')" size="xl"
+              v-model="checker" val="Abnormal/decreased sensation" label="Abnormal/decreased sensation" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Abnormal/decreased sensation"
               label="Abnormal/decreased sensation" disable />
           </div>
@@ -856,25 +857,25 @@
           </div>
           <div class="col-md-2 q-ml-md">
             <div class="text-caption text-uppercase">
-              <q-checkbox v-if="Object.values(pPsas).includes('Abnormal reflex(es)')" size="xl" v-model="checker"
+              <q-checkbox v-if="Object.values(pNeuroExam).includes('Abnormal reflex(es)')" size="xl" v-model="checker"
                 val="Abnormal reflex(es)" label="Abnormal reflex(es)" disable />
               <q-checkbox v-else size="xl" v-model="cBox" val="Abnormal reflex(es)" label="Abnormal reflex(es)"
                 disable />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Poor/altered memory')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pNeuroExam).includes('Poor/altered memory')" size="xl" v-model="checker"
               val="Poor/altered memory " label="Poor/altered memory" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Poor/altered memory" label="Poor/altered memory" disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Poor muscle tone/strength')" size="xl" v-model="checker"
-              val="Poor muscle tone/strength " label="Poor muscle tone/strength" disable />
+            <q-checkbox v-if="Object.values(pNeuroExam).includes('Poor muscle tone/strength')" size="xl"
+              v-model="checker" val="Poor muscle tone/strength " label="Poor muscle tone/strength" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Poor muscle tone/strength"
               label="Poor muscle tone/strength" disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pPsas).includes('Poor coordination')" size="xl" v-model="checker"
+            <q-checkbox v-if="Object.values(pNeuroExam).includes('Poor coordination')" size="xl" v-model="checker"
               val="Poor coordination " label="Poor coordination" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Poor coordination" label="Poor coordination" disable />
           </div>
@@ -919,6 +920,12 @@ export default defineComponent({
       editReasonForAdmissionDialog: false,
       pPsas: {},
       pHeent: {},
+      pChest: {},
+      pCvs: {},
+      pAbdomen: {},
+      pGu: {},
+      pSkin: {},
+      pNeuroExam: {},
       cf4ReasonForAdmission: {
         id: '',
         patient_no: '',
@@ -955,11 +962,11 @@ export default defineComponent({
         vital_sign_temp: '',
         heent: [],
         heent_others: '',
-        chest_lungs: '',
+        chest_lungs: [],
         chest_lungs_others: '',
-        cvs: '',
+        cvs: [],
         cvs_others: '',
-        abdomen: '',
+        abdomen: [],
         abdomen_others: '',
         gu: [],
         gu_others: '',
@@ -993,7 +1000,19 @@ export default defineComponent({
       this.pPsas = arrayPsas;
       const arrayHeent = this.cf4RFA.HEENT.split(',')
       this.pHeent = arrayHeent;
-      console.log('heent: ', this.pHeent)
+      const arrayChest = this.cf4RFA.CHEST_LUNGS.split(',')
+      this.pChest = arrayChest
+      const arrayCvs = this.cf4RFA.CVS.split(',')
+      this.pCvs = arrayCvs
+      const arrayAbdomen = this.cf4RFA.ABDOMEN.split(',')
+      this.pAbdomen = arrayAbdomen
+      const arrayGu = this.cf4RFA.GU.split(',')
+      this.pGu = arrayGu
+      const arraySkin = this.cf4RFA.SKIN.split(',')
+      this.pSkin = arraySkin
+      const arrayNeuro = this.cf4RFA.NEURO_EXAM.split(',')
+      this.pNeuroExam = arrayNeuro
+      console.log('heent: ', this.pNeuroExam)
     },
     reasonForAdmissionDialog(data) {
       this.dialogTitle = 'EDIT REASON FOR ADMISSION'

@@ -163,7 +163,6 @@
 
         <q-space class="q-mb-lg" />
 
-
         <div class="row q-ml-md q-mt-xs">
           <div class="col-md-8 q-ml-md text-weight-bold">
             5. Physical Examination continued (Pertinent Findings per System)
@@ -175,8 +174,8 @@
         <div class="row q-ml-md pssa-cb">
           <div class="col-md-6 q-ml-md">
             <div class="text-caption text-weight-bold text-uppercase q-mt-lg">
-              <q-select filled v-model="v_chest_lungs" multiple :options="chest_lungs" label="CHEST / LUNGS"
-                style="width: 850px" />
+              <q-select filled v-model="cf4ReasonForAdmission.chest_lungs" multiple :options="chest"
+                label="CHEST / LUNGS" style="width: 850px" />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
@@ -189,7 +188,8 @@
         <div class="row q-ml-md pssa-cb">
           <div class="col-md-6 q-ml-md">
             <div class="text-caption text-weight-bold text-uppercase q-mt-lg">
-              <q-select filled v-model="v_cvs" multiple :options="cvs" label="CVS" style="width: 850px" />
+              <q-select filled v-model="cf4ReasonForAdmission.cvs" multiple :options="cvs" label="CVS"
+                style="width: 850px" />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
@@ -202,7 +202,8 @@
         <div class="row q-ml-md pssa-cb">
           <div class="col-md-6 q-ml-md">
             <div class="text-caption text-weight-bold text-uppercase q-mt-lg">
-              <q-select filled v-model="v_abdomen" multiple :options="abdomen" label="ABDOMEN" style="width: 850px" />
+              <q-select filled v-model="cf4ReasonForAdmission.abdomen" multiple :options="abdomen" label="ABDOMEN"
+                style="width: 850px" />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
@@ -215,7 +216,8 @@
         <div class="row q-ml-md pssa-cb">
           <div class="col-md-6 q-ml-md">
             <div class="text-caption text-weight-bold text-uppercase q-mt-lg">
-              <q-select filled v-model="v_gu" multiple :options="gu" label="GU (IE)" style="width: 850px" />
+              <q-select filled v-model="cf4ReasonForAdmission.gu" multiple :options="gu" label="GU (IE)"
+                style="width: 850px" />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
@@ -228,7 +230,7 @@
         <div class="row q-ml-md pssa-cb">
           <div class="col-md-6 q-ml-md">
             <div class="text-caption text-weight-bold text-uppercase q-mt-lg">
-              <q-select filled v-model="v_skin" multiple :options="skin" label="SKIN / EXTREMITIES"
+              <q-select filled v-model="cf4ReasonForAdmission.skin" multiple :options="skin" label="SKIN / EXTREMITIES"
                 style="width: 850px" />
             </div>
           </div>
@@ -242,8 +244,8 @@
         <div class="row q-ml-md pssa-cb">
           <div class="col-md-6 q-ml-md">
             <div class="text-caption text-weight-bold text-uppercase q-mt-lg">
-              <q-select filled v-model="v_neuro_exam" multiple :options="neuro_exam" label="NEURO / EXAM"
-                style="width: 850px" />
+              <q-select filled v-model="cf4ReasonForAdmission.neuro_exam" multiple :options="neuro_exam"
+                label="NEURO / EXAM" style="width: 850px" />
             </div>
           </div>
           <div class="col-md-2 q-ml-md">
@@ -273,7 +275,6 @@ export default defineComponent({
     return {
       no_rhci: ref(false),
       yes_rhci: ref(false),
-      v_heent: ref([]),
       v_chest_lungs: ref(null),
       v_cvs: ref(null),
       v_psas: ref(null),
@@ -322,7 +323,7 @@ export default defineComponent({
         vital_sign_temp: '',
         heent: [],
         heent_others: '',
-        chest_lungs: '',
+        chest_lungs: [],
         chest_lungs_others: '',
         cvs: [],
         cvs_others: '',
@@ -389,7 +390,7 @@ export default defineComponent({
         'Sunken eyeballs',
         'Sunken fontanelle '
       ],
-      chest_lungs: [
+      chest: [
         'Essentially normal',
         'Asymmetrical chest expansion',
         'Decreased breath sounds',
@@ -410,7 +411,7 @@ export default defineComponent({
       abdomen: [
         'Essentially normal',
         'Abdominal rigidity',
-        'Abdomen tenderness ',
+        'Abdomen tenderness',
         'Hyperactive bowel sounds',
         'Palpable mass(es)',
         'Tympanitic/dull abdomen',
@@ -450,7 +451,6 @@ export default defineComponent({
     cf4RForAdmission: {
       handler(val) {
         if (val) {
-          console.log('id: ', val.id)
           this.cf4ReasonForAdmission.id = val.id
           this.cf4ReasonForAdmission.patient_no = val.patient_no
           this.cf4ReasonForAdmission.case_no = val.case_no
@@ -486,17 +486,17 @@ export default defineComponent({
           this.cf4ReasonForAdmission.vital_sign_temp = val.vital_sign_temp
           this.cf4ReasonForAdmission.heent = new Array(val.heent)
           this.cf4ReasonForAdmission.heent_others = val.heent_others
-          this.cf4ReasonForAdmission.chest_lungs = val.chest_lungs
-          this.cf4ReasonForAdmission.chest_lungs = val.chest_lungs_others
-          this.cf4ReasonForAdmission.cvs = val.cvs
+          this.cf4ReasonForAdmission.chest_lungs = new Array(val.chest_lungs)
+          this.cf4ReasonForAdmission.chest_lungs_others = val.chest_lungs_others
+          this.cf4ReasonForAdmission.cvs = new Array(val.cvs)
           this.cf4ReasonForAdmission.cvs_others = val.cvs_others
-          this.cf4ReasonForAdmission.abdomen = val.abdomen
+          this.cf4ReasonForAdmission.abdomen = new Array(val.abdomen)
           this.cf4ReasonForAdmission.abdomen_others = val.abdomen_others
-          this.cf4ReasonForAdmission.gu = val.gu
+          this.cf4ReasonForAdmission.gu = new Array(val.gu)
           this.cf4ReasonForAdmission.gu_others = val.gu_others
-          this.cf4ReasonForAdmission.skin = val.skin
+          this.cf4ReasonForAdmission.skin = new Array(val.skin)
           this.cf4ReasonForAdmission.skin_others = val.skin_others
-          this.cf4ReasonForAdmission.neuro_exam = val.neuro_exam
+          this.cf4ReasonForAdmission.neuro_exam = new Array(val.neuro_exam)
           this.cf4ReasonForAdmission.neuro_exam_others = val.neuro_exam_others
           this.cf4ReasonForAdmission.outcome_of_treatment = val.outcome_of_treatment
           this.cf4ReasonForAdmission.outcome_reason = val.outcome_reason
