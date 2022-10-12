@@ -67,31 +67,7 @@
       <ReasonForAdmission />
       <q-separator class="q-pa-sm" />
 
-      <q-expansion-item class="bg-amber-3">
-        <template v-slot:header>
-          <q-item-section avatar>
-            <q-avatar icon="medication" color="primary" text-color="white" />
-          </q-item-section>
-
-          <q-item-section>
-            IV. CURSE IN THE WARD
-          </q-item-section>
-        </template>
-
-        <q-card>
-          <q-card-section>
-            <div class="row">
-              <div class="col-md-3">
-                Data:
-              </div>
-              <div class="col-md-3">
-                DOCTOR'S ORDER / ACTION
-              </div>
-            </div>
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-
+      <CourseInTheWard />
       <q-separator class="q-pa-sm" />
 
       <q-expansion-item class="bg-amber-3">
@@ -107,10 +83,7 @@
 
         <q-card>
           <q-card-section>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos
-            corrupti
-            commodi magni quaerat ex numquam, dolorum officiis modi facere maiores architecto suscipit iste
-            eveniet doloribus ullam aliquid.
+            <q-input v-model="text" />
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -130,10 +103,7 @@
 
         <q-card>
           <q-card-section>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem, eius reprehenderit eos
-            corrupti
-            commodi magni quaerat ex numquam, dolorum officiis modi facere maiores architecto suscipit iste
-            eveniet doloribus ullam aliquid.
+            <q-input v-model="text" />
           </q-card-section>
         </q-card>
       </q-expansion-item>
@@ -151,12 +121,14 @@ import moment from 'moment'
 import CONSTANTS from '../constants'
 import ReasonForAdmission from 'components/ReasonForAdmission.vue'
 import PatientData from 'components/PatientData.vue'
+import CourseInTheWard from 'components/CourseInTheWard.vue'
 
 export default defineComponent({
   name: 'patientCf4',
   components: {
     ReasonForAdmission,
-    PatientData
+    PatientData,
+    CourseInTheWard
   },
   data() {
     return {

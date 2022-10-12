@@ -3,13 +3,14 @@ export default function () {
   const sessionUser = SessionStorage.getItem('userData')
   return {
     // http://10.107.0.11:8080
-    apiUrl: 'http://localhost:3000/cf4_api',
+    apiUrl: 'http://10.107.0.11:3000/cf4_api',
     users: [],
     patients: [],
     searchedPatients: [],
     patientDetails: {},
     cf4PatientData: {},
     cf4ReasonForAdmission: {},
+    cf4CourseInTheWard: {},
     patientDiagnosis: [],
     patientHistories: [],
     pertinentPastMedicalHistories: [],

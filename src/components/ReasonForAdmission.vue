@@ -356,9 +356,9 @@
 
           <div class="col-md-4 q-mr-xl">
             <label class="text-weight-bold">Referred from another health care institution (HCI)</label>
-            <q-checkbox v-if="cf4RFA.RHCI_YES === 'true'" v-model="checker" size="xl" label="No" disable />
+            <q-checkbox v-if="cf4RFA.RHCI_NO === 'true'" v-model="checker" size="xl" label="No" disable />
             <q-checkbox v-else v-model="cBox" size="xl" label="No" disable />
-            <q-checkbox v-if="cf4RFA.RHCI_NO === 'true'" v-model="checker" size="xl" label="Yes, specify reason"
+            <q-checkbox v-if="cf4RFA.RHCI_YES === 'true'" v-model="checker" size="xl" label="Yes, specify reason"
               disable />
             <q-checkbox v-else v-model="cBox" size="xl" label="Yes, specify reason" disable />
           </div>
@@ -1012,7 +1012,6 @@ export default defineComponent({
       this.pSkin = arraySkin
       const arrayNeuro = this.cf4RFA.NEURO_EXAM.split(',')
       this.pNeuroExam = arrayNeuro
-      console.log('heent: ', this.pNeuroExam)
     },
     reasonForAdmissionDialog(data) {
       this.dialogTitle = 'EDIT REASON FOR ADMISSION'

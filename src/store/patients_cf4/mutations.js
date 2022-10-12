@@ -16,6 +16,9 @@ export function setCf4PatientData(state, cf4PatientData) {
 export function setCf4ReasonForAdmission(state, cf4ReasonForAdmission) {
   state.cf4ReasonForAdmission = cf4ReasonForAdmission
 }
+export function setCf4CourseInTheWard(state, cf4CourseInTheWard) {
+  state.cf4CourseInTheWard = cf4CourseInTheWard
+}
 export function setPatientDiagnosis(state, patientDiagnosis) {
   state.patientDiagnosis = patientDiagnosis
 }

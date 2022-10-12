@@ -26,7 +26,7 @@
   </div>
   <div v-if="tableView" class="row q-pa-lg">
     <div class="col-md-12">
-      <q-table title="PATIENTS" :rows="searchedPatients" :columns="columns" :filter="filter" :loading="loading"
+      <q-table title="Patients" :rows="searchedPatients" :columns="columns" :filter="filter" :loading="loading"
         row-key="title">
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">

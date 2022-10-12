@@ -81,6 +81,19 @@ export async function getCf4ReasonForAdmission(context, payload) {
     return err
   }
 }
+export async function getCf4CourseInTheWard(context, payload) {
+  try {
+    console.log('pNo: ', payload)
+    const response = await axios.get(`${this.state.patientsCf4.apiUrl}/cf4_course_in_the_ward?patientNo=${payload}`)
+    console.log('response CIW: ', response.data)
+    context.commit('setCf4CourseInTheWard', response.data)
+
+    return response
+  } catch (err) {
+    console.log(err);
+    return err
+  }
+}
 export async function updateCf4PatientData(context, payload) {
   try {
     console.log('edit cf4 p data: ', payload)
@@ -97,6 +110,18 @@ export async function updateCf4ReasonForAdmission(context, payload) {
   try {
     console.log('edit cf4 reason for admission: ', payload)
     const response = await axios.put(`${this.state.patientsCf4.apiUrl}/update_cf4_reason_for_admission/${payload.id}`, payload)
+    console.log('result: ', response.data)
+
+    return response
+  } catch (err) {
+    console.log(err);
+    return err
+  }
+}
+export async function createCf4CourseInTheWard(context, payload) {
+  try {
+    console.log('cf4: ', payload)
+    const response = await axios.post(`${this.state.patientsCf4.apiUrl}/create_cf4_course_in_the_ward`, payload)
     console.log('result: ', response.data)
 
     return response

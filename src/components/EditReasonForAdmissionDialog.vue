@@ -613,7 +613,6 @@ export default defineComponent({
       }
       const result = await this.$store.dispatch('patientsCf4/updateCf4ReasonForAdmission', data)
       result.status === 200 ? (() => { this.submitAlert = true; })() : null
-      // var array = JSON.parse("[" + string + "]");
     },
     checkObNa() {
       alert(this.cf4ReasonForAdmission.ob_na)
