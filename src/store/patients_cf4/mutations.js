@@ -13,11 +13,17 @@ export function setPatientDetails(state, patientDetails) {
 export function setCf4PatientData(state, cf4PatientData) {
   state.cf4PatientData = cf4PatientData
 }
+export function setPDataNo(state, pDataNo) {
+  state.pDataNo = pDataNo
+}
 export function setCf4ReasonForAdmission(state, cf4ReasonForAdmission) {
   state.cf4ReasonForAdmission = cf4ReasonForAdmission
 }
 export function setCf4CourseInTheWard(state, cf4CourseInTheWard) {
   state.cf4CourseInTheWard = cf4CourseInTheWard
+}
+export function setCf4OutComeOfTreatment(state, cf4OutComeOfTreatment) {
+  state.cf4OutComeOfTreatment = cf4OutComeOfTreatment
 }
 export function setPatientDiagnosis(state, patientDiagnosis) {
   state.patientDiagnosis = patientDiagnosis

@@ -37,13 +37,11 @@
           </div>
           <div class="col-md-11">
             <label class="text-weight-bold">OB/GYN History:</label>
-            <q-space />
-            <div class="text-uppercase">
+            <div class="text-uppercase ob-margin">
               G: {{ cf4RFA.OB_G }} P: {{ cf4RFA.OB_P }} ( {{ cf4RFA.OB_1 }} - {{ cf4RFA.OB_2 }} - {{ cf4RFA.OB_3 }} - {{
               cf4RFA.OB_4 }} ) LMP: {{ cf4RFA.LMP }}
-              <q-checkbox v-model="cf4RFA.OB_NA" true-value="true" size="xl" disabled /> NA
+              <q-checkbox v-model="cf4RFA.OB_NA" true-value="true" size="xl" disable /> NA
             </div>
-
             <q-space class="q-pa-md" />
           </div>
           <q-space class="q-pa-md" />
@@ -533,7 +531,7 @@
           <div class="col-md-2 q-ml-md">
             <q-checkbox v-if="Object.values(pChest).includes('Rales/crackles/rhonchi')" size="xl" v-model="checker"
               val="Rales/crackles/rhonchi " label="Rales/crackles/rhonchi" disable />
-            <q-checkbox v-else size="xl" v-model="cBox" val="Rales/crackles/rhonchi " label="Rales/crackles/rhonchi "
+            <q-checkbox v-else size="xl" v-model="cBox" val="Rales/crackles/rhonchi" label="Rales/crackles/rhonchi"
               disable />
           </div>
           <div class="col-md-2 q-ml-md">
@@ -601,11 +599,11 @@
           <div class="col-md-2 q-ml-md">
             <q-checkbox v-if="Object.values(pCvs).includes('Muffled heart sounds')" size="xl" v-model="checker"
               val="Muffled heart sounds " label="Muffled heart sounds" disable />
-            <q-checkbox v-else size="xl" v-model="cBox" val="Muffled heart sounds " label="Muffled heart sounds "
+            <q-checkbox v-else size="xl" v-model="cBox" val="Muffled heart sounds" label="Muffled heart sounds"
               disable />
           </div>
           <div class="col-md-2 q-ml-md">
-            <q-checkbox v-if="Object.values(pCvs).includes('Murmur')" size="xl" v-model="checker" val="Murmur "
+            <q-checkbox v-if="Object.values(pCvs).includes('Murmur')" size="xl" v-model="checker" val="Murmur"
               label="Murmur" disable />
             <q-checkbox v-else size="xl" v-model="cBox" val="Murmur" label="Murmur" disable />
           </div>
@@ -940,7 +938,7 @@ export default defineComponent({
         ob_4: '',
         lmp: '',
         ob_na: false,
-        pertinent_signs_and_symptoms: [],
+        pertinent_signs_and_symptoms: '',
         pain: '',
         pain_site: '',
         psas_other: '',
@@ -981,7 +979,6 @@ export default defineComponent({
     }
   },
   created() {
-    // this.fetchPatientData()/
     this.getCf4ReasonForAdmission()
   },
   computed: {
@@ -1000,7 +997,7 @@ export default defineComponent({
       this.pPsas = arrayPsas;
       const arrayHeent = this.cf4RFA.HEENT.split(',')
       this.pHeent = arrayHeent;
-      const arrayChest = this.cf4RFA.CHEST_LUNGS.split(',')
+      const arrayChest = this.cf4RFA.HEENT.split(',')
       this.pChest = arrayChest
       const arrayCvs = this.cf4RFA.CVS.split(',')
       this.pCvs = arrayCvs
@@ -1016,8 +1013,9 @@ export default defineComponent({
     reasonForAdmissionDialog(data) {
       this.dialogTitle = 'EDIT REASON FOR ADMISSION'
       this.editReasonForAdmissionDialog = true
+      console.log('rFA: ', data.ID[2])
       this.cf4ReasonForAdmission = {
-        id: data.ID,
+        id: data.ID[2],
         patient_no: data.PATIENT_NO,
         case_no: data.CASE_NO,
         history_of_present_illness: data.HISTORY_OF_PRESENT_ILLNESS,
@@ -1050,7 +1048,7 @@ export default defineComponent({
         vital_sign_hr: data.VITAL_SIGN_HR,
         vital_sign_rr: data.VITAL_SIGN_RR,
         vital_sign_temp: data.VITAL_SIGN_TEMP,
-        heent: data.HEENT,
+        heent: data.HEENT.split(','),
         heent_others: data.HEENT_OTHERS,
         chest_lungs: data.CHEST_LUNGS,
         chest_lungs_others: data.CHEST_LUNGS_OTHERS,
@@ -1110,5 +1108,9 @@ export default defineComponent({
 
 .vs-label {
   margin-left: 180px;
+}
+
+.ob-margin {
+  margin-top: -12px;
 }
 </style>

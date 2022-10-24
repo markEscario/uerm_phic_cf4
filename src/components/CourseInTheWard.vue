@@ -8,7 +8,7 @@
       </q-item-section>
 
       <q-item-section>
-        IV. CURSE IN THE WARD
+        IV. COURSE IN THE WARD
       </q-item-section>
       <q-btn class="q-mr-sm" outline rounded color="primary" label="CREATE" @click="courseInTheWardDialog()"
         size="sm" />
@@ -62,7 +62,7 @@ export default defineComponent({
     }
   },
   created() {
-    this.getCf4PCourseInTheWard()
+    // this.getCf4PCourseInTheWard()
   },
   computed: {
     ...mapGetters({

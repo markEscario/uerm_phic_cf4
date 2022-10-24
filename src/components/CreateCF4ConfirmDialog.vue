@@ -26,7 +26,6 @@
               pInfo.MIDDLENAME }} - {{ pInfo.PATIENTNO[0] }}
             </b>
           </div>
-
         </div>
         <div class="row q-pa-md">
           <q-btn class="q-mr-md" label="CONFIRM" type="submit" color="primary" />
@@ -46,7 +45,6 @@ import CONSTANTS from '../constants'
 
 export default defineComponent({
   name: 'CreateCF4ConfirmDialog',
-
   props: ['cf4Modal', 'pInfo', 'dTitle'],
   data() {
     return {
@@ -61,12 +59,14 @@ export default defineComponent({
       createCf4msg: CONSTANTS.CREATE_CF4_MESSAGE
     }
   },
+
   computed: {
     ...mapGetters({
       employees: 'patientsCf4/patients',
       searchStatus: 'patientsCf4/searchStatus',
       patientDetails: 'patientsCf4/patientDetails',
       searchedPatients: 'patientsCf4/searchedPatients',
+      pDataNo: 'patientsCf4/pDataNo',
     })
   },
   methods: {
@@ -78,18 +78,19 @@ export default defineComponent({
       }
       const result = await this.$store.dispatch('patientsCf4/createCf4', data)
       result.status === 200 ? (() => { this.submitAlert = true; })() : null
+      console.log('resultsXX: ', result)
     },
     submitCf4() {
       this.createCf4();
       setTimeout(() => {
         this.submitAlert = false
         this.close()
-        // this.$router.go()
         this.getPatientDetails()
       }, 3000)
     },
+
     async getPatientDetails() {
-      await this.$router.push({ path: "patient_cf4", query: { pNo: this.pInfo.PATIENTNO[0] } });
+      await this.$router.push({ path: "patient_cf4", query: { pNo: this.pDataNo } });
     },
     close() {
       this.$emit('close')

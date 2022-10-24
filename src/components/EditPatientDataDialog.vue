@@ -22,41 +22,40 @@
         <div class="row" style="max-width: 1800px">
           <div class="col-md-12 q-ml-md">
             <q-input class="text-uppercase" outlined v-model="cf4PatientData.chief_complaint" autogrow
-              label="CHEIF COMPLAINT" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
+              hint="CHIEF COMPLAINT" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
           </div>
           <div class="col-md-12 q-ml-md">
             <q-input class="text-uppercase" outlined v-model="cf4PatientData.admitting_diagnosis" autogrow
-              label="ADMITTING DIAGNOSIS" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
+              hint="ADMITTING DIAGNOSIS" />
           </div>
           <q-space class="q-mb-md" />
           <div class="col-md-12 q-ml-md">
             <q-input class="text-uppercase" outlined v-model="cf4PatientData.discharge_diagnosis" autogrow
-              label="DISCHARGE DIAGNOSIS" lazy-rules :rules="[val => val && val.length > 0 || 'This is required']" />
+              hint="DISCHARGE DIAGNOSIS" />
           </div>
           <div class="col-md-2 q-ml-md">
             <q-space class="q-mb-md" />
             <q-input class="text-uppercase" outlined v-model="cf4PatientData.a_first_case_rate"
-              label="FIRST CASE RATE" />
+              hint="FIRST CASE RATE" />
           </div>
           <div class="col-md-2 q-ml-md">
             <q-space class="q-mb-md" />
             <q-input class="text-uppercase" outlined v-model="cf4PatientData.a_second_case_rate"
-              label="SECOND CASE RATE" />
+              hint="SECOND CASE RATE" />
           </div>
         </div>
         <div class="row q-pa-md">
           <q-btn class="q-mr-md" label="Update" type="submit" color="primary" />
           <q-btn label="Close" @click="close" color="grey" v-close-popup />
-
         </div>
       </q-form>
-
     </q-card>
   </q-dialog>
 </template>
 <script>
 import { defineComponent, ref } from 'vue'
 import CONSTANTS from '../constants'
+import { mapGetters } from 'vuex'
 
 export default defineComponent({
   name: 'EditPatientDataDialog',
@@ -77,6 +76,16 @@ export default defineComponent({
       updatePatientDataMsg: CONSTANTS.FORM_UPDATE_PATIENT_DATA_MESSAGE
     }
   },
+  mounted() {
+    this.getCf4PatientData()
+  },
+  computed: {
+    ...mapGetters({
+      searchStatus: 'patientsCf4/searchStatus',
+      patientDetails: 'patientsCf4/patientDetails',
+      cf4PD: 'patientsCf4/cf4PatientData',
+    })
+  },
   watch: {
     cf4PData: {
       handler(val) {
@@ -90,22 +99,15 @@ export default defineComponent({
           this.cf4PatientData.a_first_case_rate = val.a_first_case_rate
           this.cf4PatientData.a_second_case_rate = val.a_second_case_rate
           this.cf4PatientData.cf4_status = val.cf4_status
-        } else {
-          this.cf4PatientData.id = ''
-          this.cf4PatientData.patient_no = ''
-          this.cf4PatientData.case_no = ''
-          this.cf4PatientData.chief_complaint = ''
-          this.cf4PatientData.admitting_diagnosis = ''
-          this.cf4PatientData.discharge_diagnosis = ''
-          this.cf4PatientData.a_first_case_rate = ''
-          this.cf4PatientData.a_second_case_rate = ''
-          this.cf4PatientData.cf4_status = ''
         }
       },
       immediate: true
     }
   },
   methods: {
+    async getCf4PatientData() {
+      const res = await this.$store.dispatch('patientsCf4/getCf4PatientData', this.$route.query.pNo)
+    },
     async updateCf4PData() {
       let data = {
         id: this.cf4PatientData.id,
@@ -125,11 +127,12 @@ export default defineComponent({
       setTimeout(() => {
         this.submitAlert = false
         this.close()
-        this.$router.go()
+        this.getCf4PatientData();
       }, 3000)
     },
     close() {
       this.$emit('close')
+      this.cf4PatientData = {}
     }
   }
 

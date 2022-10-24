@@ -13,11 +13,17 @@ export function patientDetails(state) {
 export function cf4PatientData(state) {
   return state.cf4PatientData
 }
+export function pDataNo(state) {
+  return state.pDataNo
+}
 export function cf4ReasonForAdmission(state) {
   return state.cf4ReasonForAdmission
 }
 export function cf4CourseInTheWard(state) {
   return state.cf4CourseInTheWard
+}
+export function cf4OutComeOfTreatment(state) {
+  return state.cf4OutComeOfTreatment
 }
 export function patientDiagnosis(state) {
   return state.patientDiagnosis

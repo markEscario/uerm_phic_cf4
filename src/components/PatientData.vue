@@ -1,7 +1,7 @@
 <template>
   <EditPatientDataDialog :ePatientDataDialog="editPatientDataDialog" :dTitle="dialogTitle" :pInfo="patientDetails"
     :cf4PData="cf4PatientData" @close="closeEditPatientDataDialog" @hide="closeEditPatientDataDialog" />
-  <q-expansion-item class="bg-amber-3" default-opened>
+  <q-expansion-item class="bg-amber-3" v-model="expOpen">
     <template v-slot:header>
       <q-item-section avatar>
         <q-avatar>
@@ -37,35 +37,30 @@
           </div>
           <div class="col-md-2">
             <label class="text-weight-bold">Date Admitted:</label>
-            {{ patientDetails.DATEAD ? moment(patientDetails.DATEAD.substr(0, 10)).format('MMMM d, YYYY') :
-            patientDetails.DATEAD }}
+            {{ pAdDate.date }}
           </div>
         </div>
         <q-space class="q-pa-sm" />
         <div class="row">
           <div class="col-md-3">
-            <label class="text-weight-bold">Time Admitted: </label>
-            {{ patientDetails.DATEAD ? moment(patientDetails.DATEAD).format('hh:mm A') :
-            patientDetails.DATEAD }}
+            <label class="text-weight-bold">Time Admitted:</label>
+            {{ pAdDate.time }}
           </div>
           <div class="col-md-2">
             <label class="text-weight-bold">Date Discharged:</label>
-            {{ patientDetails.DATEDIS ? moment(patientDetails.DATEDIS.substr(0, 10)).format('MMMM d, YYYY')
-            :
-            patientDetails.DATEDIS }}
+            {{ pDisDate.date }}
           </div>
           <div class="col-md-2">
             <label class="text-weight-bold">Time Discharged:</label>
-            {{ patientDetails.DATEAD ? moment(patientDetails.DATEDIS).format('hh:mm A') :
-            patientDetails.DATEDIS }}
+            {{ pDisDate.time }}
           </div>
           <div class="col-md-2">
             <label class="text-weight-bold">1st Case Rate:</label>
-            {{ cf4PD.AFIRST_CASE_RATE }}
+            <!-- {{ cf4PD.AFIRST_CASE_RATE }} -->
           </div>
           <div class="col-md-2">
             <label class="text-weight-bold">2nd Case Rate</label>
-            {{ cf4PD.ASECOND_CASE_RATE }}
+            <!-- {{ cf4PD.ASECOND_CASE_RATE }} -->
           </div>
         </div>
         <q-space class="q-pa-md" />
@@ -116,9 +111,12 @@ export default defineComponent({
   data() {
     return {
       moment,
+      expOpen: true,
       dialogTitle: '',
       editPatientDataDialog: false,
       patientInfo: {},
+      pAdDate: '',
+      pDisDate: '',
       cf4PatientData: {
         id: 0,
         patient_no: '',
@@ -133,7 +131,6 @@ export default defineComponent({
     }
   },
   created() {
-    // this.fetchPatientData()
     this.getCf4PatientData()
   },
   computed: {
@@ -149,12 +146,17 @@ export default defineComponent({
     },
     async getCf4PatientData() {
       await this.$store.dispatch('patientsCf4/getCf4PatientData', this.$route.query.pNo)
+      const nDate = this.formatDate(this.patientDetails.DATEAD)
+      this.pAdDate = nDate
+      const dDate = this.patientDetails.DATEDIS ? this.formatDate(this.patientDetails.DATEDIS) : ''
+      this.pDisDate = dDate
     },
     patientDataDialog(data) {
       this.dialogTitle = 'EDIT PATIENT DATA'
       this.editPatientDataDialog = true
+      console.log('idx: ', data.ID[2])
       this.cf4PatientData = {
-        id: data.ID,
+        id: data.ID[2],
         patient_no: data.PATIENT_NO,
         case_no: data.CASE_NO,
         chief_complaint: data.CHIEF_COMPLAINT,
@@ -165,8 +167,36 @@ export default defineComponent({
         cf4_status: 'UPDATED'
       }
     },
+    formatDate(dateInfo) {
+      const formatDate = dateInfo
+        .replace(/T/, " ")
+        .replace(/Z/, " ")
+        .substr("0", "16");
+      const date = new Date(`${formatDate}`);
+      const ye = new Intl.DateTimeFormat("en", { year: "numeric" }).format(
+        date
+      );
+      const mo = new Intl.DateTimeFormat("en", { month: "long" }).format(date);
+      const da = new Intl.DateTimeFormat("en", { day: "2-digit" }).format(date);
+      var min = date.getMinutes();
+      var hr = date.getHours();
+      if (min < 10) {
+        min = "0" + min;
+      }
+      var ampm = "AM";
+      if (hr > 12) {
+        hr -= 12;
+        ampm = "PM";
+      }
+      const time = `${hr}:${min} ${ampm}`;
+      return {
+        date: `${mo} ${da}, ${ye}`,
+        time: time,
+      };
+    },
     closeEditPatientDataDialog() {
       this.editPatientDataDialog = false
+      this.expOpen = true
     }
   }
 })

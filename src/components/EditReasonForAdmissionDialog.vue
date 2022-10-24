@@ -4,10 +4,9 @@
       <q-card-section>
         <q-banner dense inline-actions class="text-white bg-primary q-mb-sm">
           <label class="text-caption">
-            {{ pInfo.LASTNAME }}, {{ pInfo.FIRSTNAME }} {{ pInfo.MIDDLENAME }} - {{ pInfo.PATIENTNO[0] }}
+            {{ pInfo.LASTNAME }}, {{ pInfo.FIRSTNAME }} {{ pInfo.MIDDLENAME }} - {{ pInfo.CASENO }}
           </label>
         </q-banner>
-
         <q-banner v-if="submitAlert" dense inline-actions class="text-white bg-green-3">
           <label class="text-caption">
             <q-spinner-hourglass color="primary" size="2em" />
@@ -78,6 +77,8 @@
         <div class="row q-ml-md pssa-cb">
           <div class="col-md-6 q-ml-md">
             <div class="text-caption text-weight-bold text-uppercase q-mt-lg">
+              {{ cf4ReasonForAdmission.pertinent_signs_and_symptoms }}
+
               <q-select filled v-model="cf4ReasonForAdmission.pertinent_signs_and_symptoms" multiple :options="psas"
                 label="SELECT" style="width: 850px" />
             </div>
@@ -152,6 +153,7 @@
         <div class="row q-ml-md pssa-cb">
           <div class="col-md-6 q-ml-md">
             <div class="text-caption text-weight-bold text-uppercase q-mt-lg">
+              <!-- <q-select filled v-model="cf4ReasonForAdmission.heent" multiple :options="heents" label="HEENT" -->
               <q-select filled v-model="cf4ReasonForAdmission.heent" multiple :options="heents" label="HEENT"
                 style="width: 850px" />
             </div>
@@ -275,6 +277,7 @@ export default defineComponent({
     return {
       no_rhci: ref(false),
       yes_rhci: ref(false),
+      v_heent: ref(false),
       v_chest_lungs: ref(null),
       v_cvs: ref(null),
       v_psas: ref(null),
@@ -301,7 +304,7 @@ export default defineComponent({
         ob_4: '',
         lmp: '',
         ob_na: false,
-        pertinent_signs_and_symptoms: [],
+        pertinent_signs_and_symptoms: '',
         pain: '',
         pain_site: '',
         psas_other: '',
@@ -321,11 +324,11 @@ export default defineComponent({
         vital_sign_hr: '',
         vital_sign_rr: '',
         vital_sign_temp: '',
-        heent: [],
+        heent: '',
         heent_others: '',
-        chest_lungs: [],
+        chest_lungs: '',
         chest_lungs_others: '',
-        cvs: [],
+        cvs: '',
         cvs_others: '',
         abdomen: [],
         abdomen_others: '',
@@ -447,9 +450,11 @@ export default defineComponent({
       ]
     }
   },
+
   watch: {
     cf4RForAdmission: {
       handler(val) {
+        console.log('val: ', val)
         if (val) {
           this.cf4ReasonForAdmission.id = val.id
           this.cf4ReasonForAdmission.patient_no = val.patient_no
@@ -464,15 +469,15 @@ export default defineComponent({
           this.cf4ReasonForAdmission.ob_4 = val.ob_4
           this.cf4ReasonForAdmission.lmp = val.lmp
           this.cf4ReasonForAdmission.ob_na = val.ob_na
-          this.cf4ReasonForAdmission.pertinent_signs_and_symptoms = new Array(val.pertinent_signs_and_symptoms)
+          this.cf4ReasonForAdmission.pertinent_signs_and_symptoms = val.pertinent_signs_and_symptoms
           this.cf4ReasonForAdmission.pain = val.pain
           this.cf4ReasonForAdmission.pain_site = val.pain_site
           this.cf4ReasonForAdmission.psas_other = val.psas_other
           this.cf4ReasonForAdmission.psas_other_desc = val.psas_other_desc
           this.cf4ReasonForAdmission.referred_to_another_hci = val.referred_to_another_hci
-          this.cf4ReasonForAdmission.rhci_yes = val.rhci_yes,
-            this.cf4ReasonForAdmission.rhci_no = val.rhci_no,
-            this.cf4ReasonForAdmission.specify_reason = val.specify_reason
+          this.cf4ReasonForAdmission.rhci_yes = val.rhci_yes
+          this.cf4ReasonForAdmission.rhci_no = val.rhci_no
+          this.cf4ReasonForAdmission.specify_reason = val.specify_reason
           this.cf4ReasonForAdmission.originating_hci = val.originating_hci
           this.cf4ReasonForAdmission.general_survey = val.general_survey
           this.cf4ReasonForAdmission.awake_and_alert = val.awake_and_alert
@@ -484,7 +489,7 @@ export default defineComponent({
           this.cf4ReasonForAdmission.vital_sign_hr = val.vital_sign_hr
           this.cf4ReasonForAdmission.vital_sign_rr = val.vital_sign_rr
           this.cf4ReasonForAdmission.vital_sign_temp = val.vital_sign_temp
-          this.cf4ReasonForAdmission.heent = new Array(val.heent)
+          this.cf4ReasonForAdmission.heent = val.heent
           this.cf4ReasonForAdmission.heent_others = val.heent_others
           this.cf4ReasonForAdmission.chest_lungs = new Array(val.chest_lungs)
           this.cf4ReasonForAdmission.chest_lungs_others = val.chest_lungs_others
@@ -501,57 +506,6 @@ export default defineComponent({
           this.cf4ReasonForAdmission.outcome_of_treatment = val.outcome_of_treatment
           this.cf4ReasonForAdmission.outcome_reason = val.outcome_reason
           this.cf4ReasonForAdmission.cf4_status = val.cf4_status
-        } else {
-          this.cf4ReasonForAdmission.id = ''
-          this.cf4ReasonForAdmission.patient_no = ''
-          this.cf4ReasonForAdmission.case_no = ''
-          this.cf4ReasonForAdmission.history_of_present_illness = ''
-          this.cf4ReasonForAdmission.pertinent_past_medical_history = ''
-          this.cf4ReasonForAdmission.ob_g = ''
-          this.cf4ReasonForAdmission.ob_p = ''
-          this.cf4ReasonForAdmission.ob_1 = ''
-          this.cf4ReasonForAdmission.ob_2 = ''
-          this.cf4ReasonForAdmission.ob_3 = ''
-          this.cf4ReasonForAdmission.ob_4 = ''
-          this.cf4ReasonForAdmission.lmp = ''
-          this.cf4ReasonForAdmission.ob_na = ''
-          this.cf4ReasonForAdmission.pertinent_signs_and_symptoms = ''
-          this.cf4ReasonForAdmission.pain = ''
-          this.cf4ReasonForAdmission.pain_site = ''
-          this.cf4ReasonForAdmission.psas_other = ''
-          this.cf4ReasonForAdmission.psas_other_desc = ''
-          this.cf4ReasonForAdmission.referred_to_another_hci = ''
-          this.cf4ReasonForAdmission.rhci_yes = ''
-          this.cf4ReasonForAdmission.rhci_no = ''
-          this.cf4ReasonForAdmission.specify_reason = ''
-          this.cf4ReasonForAdmission.originating_hci = ''
-          this.cf4ReasonForAdmission.general_survey = ''
-          this.cf4ReasonForAdmission.awake_and_alert = ''
-          this.cf4ReasonForAdmission.altered_sensorium = ''
-          this.cf4ReasonForAdmission.altered_sensorium_data = ''
-          this.cf4ReasonForAdmission.p_height = ''
-          this.cf4ReasonForAdmission.p_weight = ''
-          this.cf4ReasonForAdmission.vital_sign_bp = ''
-          this.cf4ReasonForAdmission.vital_sign_hr = ''
-          this.cf4ReasonForAdmission.vital_sign_rr = ''
-          this.cf4ReasonForAdmission.vital_sign_temp = ''
-          this.cf4ReasonForAdmission.heent = ''
-          this.cf4ReasonForAdmission.heent_others = ''
-          this.cf4ReasonForAdmission.chest_lungs = ''
-          this.cf4ReasonForAdmission.chest_lungs_others = ''
-          this.cf4ReasonForAdmission.cvs = ''
-          this.cf4ReasonForAdmission.cvs_others = ''
-          this.cf4ReasonForAdmission.abdomen = ''
-          this.cf4ReasonForAdmission.abdomen_others = ''
-          this.cf4ReasonForAdmission.gu = ''
-          this.cf4ReasonForAdmission.gu_others = ''
-          this.cf4ReasonForAdmission.skin = ''
-          this.cf4ReasonForAdmission.skin_others = ''
-          this.cf4ReasonForAdmission.neuro_exam = ''
-          this.cf4ReasonForAdmission.neuro_exam_others = ''
-          this.cf4ReasonForAdmission.outcome_of_treatment = ''
-          this.cf4ReasonForAdmission.outcome_reason = ''
-          this.cf4ReasonForAdmission.cf4_status = ''
         }
       },
       immediate: true
@@ -622,7 +576,6 @@ export default defineComponent({
       setTimeout(() => {
         this.submitAlert = false
         this.close()
-        this.$router.go()
       }, 3000)
     },
     close() {

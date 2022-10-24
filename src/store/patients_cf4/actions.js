@@ -1,9 +1,22 @@
 import axios from "axios";
 
-export async function searchPatients(context, payload) {
+export async function searchPatientsByLastNameCaseNo(context, payload) {
   try {
     console.log('payload: ', payload)
-    const response = await axios.get(`${this.state.patientsCf4.apiUrl}/search_patients?searchData=${payload.filterData}`)
+    const response = await axios.get(`${process.env.API_HOST}/search_patients_by_lastname_caseno?searchData=${payload.lastNameCaseNo}`)
+    console.log('result: ', response.data)
+    context.commit('setSearchedPatients', response.data)
+
+    return response
+  } catch (err) {
+    console.log(err);
+    return err
+  }
+}
+export async function searchPatientsByDate(context, payload) {
+  try {
+    console.log('payloadx: ', payload)
+    const response = await axios.get(`${process.env.API_HOST}/search_patients_by_date?searchData=${payload.dateAdAndDis}`)
     console.log('result: ', response.data)
     context.commit('setSearchedPatients', response.data)
 
@@ -15,9 +28,9 @@ export async function searchPatients(context, payload) {
 }
 export async function getPatientDetails(context, payload) {
   try {
-    console.log('p details: ', payload)
-    const response = await axios.get(`${this.state.patientsCf4.apiUrl}/patient_details?patientNo=${payload}`)
-    console.log('result: ', response.data[0])
+    console.log('data no: ', payload)
+    const response = await axios.get(`${process.env.API_HOST}/patient_details?dataNo=${payload}`)
+    console.log('resultX: ', response.data[0])
     context.commit('setPatientDetails', response.data[0])
 
     return response
@@ -29,7 +42,7 @@ export async function getPatientDetails(context, payload) {
 export async function getEncoders(context, payload) {
   try {
     console.log('code: ', payload.empCode)
-    const response = await axios.get(`${this.state.patientsCf4.apiUrl}/patient_encoders?empCode=${payload.empCode}`)
+    const response = await axios.get(`${process.env.API_HOST}/patient_encoders?empCode=${payload.empCode}`)
     console.log('result: ', response.data[0])
     context.commit('setPatientEncoders', response[0])
 
@@ -42,8 +55,9 @@ export async function getEncoders(context, payload) {
 export async function createCf4(context, payload) {
   try {
     console.log('cf4: ', payload)
-    const response = await axios.post(`${this.state.patientsCf4.apiUrl}/create_patient_cf4`, payload)
+    const response = await axios.post(`${process.env.API_HOST}/create_patient_cf4`, payload)
     console.log('result: ', response.data)
+    context.commit('setPDataNo', response.data)
 
     return response
   } catch (err) {
@@ -54,7 +68,7 @@ export async function createCf4(context, payload) {
 export async function getCf4PatientData(context, payload) {
   try {
     console.log('pNo: ', payload)
-    const response = await axios.get(`${this.state.patientsCf4.apiUrl}/cf4_patient_data?patientNo=${payload}`)
+    const response = await axios.get(`${process.env.API_HOST}/cf4_patient_data?patientNo=${payload}`)
     console.log('response: ', response)
     context.commit('setCf4PatientData', response.data[0])
 
@@ -67,7 +81,7 @@ export async function getCf4PatientData(context, payload) {
 export async function getCf4ReasonForAdmission(context, payload) {
   try {
     console.log('pNo: ', payload)
-    const response = await axios.get(`${this.state.patientsCf4.apiUrl}/cf4_reason_for_admission?patientNo=${payload}`)
+    const response = await axios.get(`${process.env.API_HOST}/cf4_reason_for_admission?patientNo=${payload}`)
     console.log('response ROA: ', response.data[0])
     for (const item of response.data) {
       item['RHCI_YES'] === 'true' ? true : false
@@ -87,8 +101,21 @@ export async function getCf4CourseInTheWard(context, payload) {
     const response = await axios.get(`${this.state.patientsCf4.apiUrl}/cf4_course_in_the_ward?patientNo=${payload}`)
     console.log('response CIW: ', response.data)
     context.commit('setCf4CourseInTheWard', response.data)
-
     return response
+
+  } catch (err) {
+    console.log(err);
+    return err
+  }
+}
+export async function getCf4OutComeOfTreatment(context, payload) {
+  try {
+    console.log('pNo: ', payload)
+    const response = await axios.get(`${this.state.patientsCf4.apiUrl}/cf4_outcome_of_treatment?patientNo=${payload}`)
+    console.log('response: ', response)
+    context.commit('setCf4OutComeOfTreatment', response.data[0])
+    return response
+
   } catch (err) {
     console.log(err);
     return err
@@ -96,7 +123,7 @@ export async function getCf4CourseInTheWard(context, payload) {
 }
 export async function updateCf4PatientData(context, payload) {
   try {
-    console.log('edit cf4 p data: ', payload)
+    console.log('Edit Patient Data: ', payload.id)
     const response = await axios.put(`${this.state.patientsCf4.apiUrl}/update_cf4_patient_data/${payload.id}`, payload)
     console.log('resultx: ', response.data)
 
@@ -125,6 +152,18 @@ export async function createCf4CourseInTheWard(context, payload) {
     console.log('result: ', response.data)
 
     return response
+  } catch (err) {
+    console.log(err);
+    return err
+  }
+}
+export async function updateCf4OutComeOfTreatment(context, payload) {
+  try {
+    console.log('outcomeof treatment: ', payload)
+    const response = await axios.put(`${this.state.patientsCf4.apiUrl}/update_cf4_outcome_of_treatment/${payload.id}`, payload)
+    console.log('result: ', response.data)
+    return response
+
   } catch (err) {
     console.log(err);
     return err

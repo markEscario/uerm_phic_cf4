@@ -4,11 +4,10 @@
   <div class="q-pa-md" style="max-width: 1940px">
     <q-banner dense inline-actions class="text-white bg-grey">
       <label class="text-h6">
-        {{ patientDetails.LASTNAME }}, {{ patientDetails.FIRSTNAME }} {{ patientDetails.MIDDLENAME }} - {{
-        Array.isArray(patientDetails.PATIENTNO) ? patientDetails.PATIENTNO[0] : patientDetails.PATIENTNO }}
+        {{ patientDetails.LASTNAME }}, {{ patientDetails.FIRSTNAME }} {{ patientDetails.MIDDLENAME }} CASE NO: {{
+        patientDetails.CASENO }}
       </label>
     </q-banner>
-
     <q-space class="q-pa-sm" />
     <div class="row">
       <div class="col-md-12">
@@ -16,7 +15,6 @@
       </div>
     </div>
     <q-space class="q-pa-sm" />
-
     <q-list bordered class="rounded-borders">
       <q-expansion-item class="bg-amber-3" default-opened>
         <template v-slot:header>
@@ -28,7 +26,6 @@
             I. HEALTH CARE INSTITUTION
           </q-item-section>
         </template>
-
         <q-card>
           <q-card-section>
             <div class="row">
@@ -83,31 +80,14 @@
 
         <q-card>
           <q-card-section>
+            Fetch:
             <q-input v-model="text" />
           </q-card-section>
         </q-card>
       </q-expansion-item>
 
       <q-separator class="q-pa-sm" />
-
-      <q-expansion-item class="bg-amber-3">
-        <template v-slot:header>
-          <q-item-section avatar>
-            <q-avatar icon="folder" color="primary" text-color="white" />
-          </q-item-section>
-
-          <q-item-section>
-            VI. OUTCOME TREATMENT
-          </q-item-section>
-        </template>
-
-        <q-card>
-          <q-card-section>
-            <q-input v-model="text" />
-          </q-card-section>
-        </q-card>
-      </q-expansion-item>
-
+      <OutComeOfTreatment />
       <q-separator class="q-pa-sm" />
     </q-list>
 
@@ -122,13 +102,15 @@ import CONSTANTS from '../constants'
 import ReasonForAdmission from 'components/ReasonForAdmission.vue'
 import PatientData from 'components/PatientData.vue'
 import CourseInTheWard from 'components/CourseInTheWard.vue'
+import OutComeOfTreatment from 'components/OutComeOfTreatment.vue'
 
 export default defineComponent({
   name: 'patientCf4',
   components: {
     ReasonForAdmission,
     PatientData,
-    CourseInTheWard
+    CourseInTheWard,
+    OutComeOfTreatment
   },
   data() {
     return {
@@ -153,14 +135,15 @@ export default defineComponent({
       encoders: 'patientsCf4/encoders'
     })
   },
-  created() {
+  mounted() {
     this.fetchPatientData()
   },
   methods: {
     async fetchPatientData() {
       const result = await this.$store.dispatch('patientsCf4/getPatientDetails', this.$route.query.pNo)
+      console.log('r: ', result)
     }
   }
 
-}) 
+})
 </script>

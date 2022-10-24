@@ -4,8 +4,8 @@
   <div class="q-pa-lg">
     <q-form @submit="submitFilter" class="q-gutter-md" ref="form">
       <div class="q-gutter-md row q-ml-sm">
-        <q-input class="text-h5 q-ml-sm" outlined v-model="search.filterPatient" ref="inputRef" :label=searchLabel
-          :rules="[rule1, rule2]" :hint=searchHint>
+        <q-input v-if="fByLastNameCaseNo" class="q-ml-sm q-f-caseno" outlined v-model="search.filterPatient"
+          ref="inputRef" :label=searchLabel :rules="[rule1, rule2]" :hint=searchByLastNameCaseNo>
           <template v-slot:prepend>
             <q-icon name="search" />
           </template>
@@ -14,24 +14,26 @@
           </template>
         </q-input>
       </div>
-      <br>
+      <q-btn v-if="lastNameFilterBtn" outline icon="calendar_month" class="q-mt-xs s-btn" size="sm"
+        label="Filter By Lastname / Case No." @click="lastNameCaseNoFilter" color="amber-8" />
+      <q-space class="q-mb-sm" />
       <q-btn icon="search" class="q-mt-xs s-btn" label="Search" type="submit" color="primary" />
     </q-form>
   </div>
   <q-separator class="q-ml-md q-mr-md" />
   <div clas="row q-pa-xl">
     <div class="col-md-3">
-      <q-toggle v-if="showToggle" size="xl" v-model="tableView" icon="table_view" />
+      <q-toggle v-if="showToggle" size="xl" v-model="tableView" icon="table_view" label="View in Table" />
     </div>
   </div>
-  <div v-if="tableView" class="row q-pa-lg">
+  <div v-if="withResult" class="row q-pa-lg">
     <div class="col-md-12">
-      <q-table title="Patients" :rows="searchedPatients" :columns="columns" :filter="filter" :loading="loading"
-        row-key="title">
+      <q-table v-if="withResult" title="Patients" :rows="searchedPatients" :columns="columns" :filter="filter"
+        :loading="loading" row-key="title">
         <template v-slot:body-cell-actions="props">
           <q-td :props="props">
             <q-btn v-if="props.row.CF4_STATUS" label="UPDATE CF4" size="sm" color="green"
-              @click="getPatientDetails(props.row.PATIENTNO[0])" class="q-mr-sm" />
+              @click="getPatientDetails(props.row.DATA_NO)" class="q-mr-sm" />
             <q-btn unelevated v-else color="red" size="sm" label="CREATE CF4" @click="createCF4Confirm(props.row)" />
           </q-td>
         </template>
@@ -39,54 +41,6 @@
           <q-inner-loading showing color="primary" size="90px" />
         </template>
       </q-table>
-    </div>
-  </div>
-  <div v-else class="row container-pos" style="width: 1400px;">
-    <div class="col-md-3 q-pa-lg" v-for="resultPatient in paginatePatients" :key="resultPatient">
-      <q-toolbar class="bg-primary text-white shadow-2">
-        <q-toolbar-title>
-          <b class="text-subtitle2">{{ resultPatient.LASTNAME }} {{ resultPatient.FIRSTNAME }}, {{
-          resultPatient.MIDDLENAME }}</b>
-        </q-toolbar-title>
-      </q-toolbar>
-      <q-list bordered>
-        <q-item class="q-my-sm">
-          <q-item-section avatar>
-            <q-avatar class="text-white avatar-margin" size="50px" color="amber-4">{{
-            Array.from(resultPatient.FIRSTNAME)[0] + '' +
-            Array.from(resultPatient.LASTNAME)[0]
-            }}
-            </q-avatar>
-          </q-item-section>
-          <q-item-section>
-            <q-item-label class="dept-label text-uppercase text-caption">PATIENT NO: {{ resultPatient.PATIENTNO[0]
-            }}
-            </q-item-label>
-            <q-item-label class="dept-label text-uppercase text-caption">DATE ADMITTED: {{
-            resultPatient.DATEAD !== null ? resultPatient.DATEAD.substr(0, 10) : resultPatient.DATEAD
-            }}
-            </q-item-label>
-            <q-item-label class="dept-label text-uppercase text-caption">DATE DISCHARGED: {{
-            resultPatient.DATEDIS !== null ? resultPatient.DATEDIS.substr(0, 10) : resultPatient.DATEDIS
-            }}
-            </q-item-label>
-            <q-item-label class="dept-label text-uppercase text-caption">CASE NO: {{
-            resultPatient.CASENO !== null ? resultPatient.CASENO : resultPatient.CASENO.substr(0, 10)
-            }}
-            </q-item-label>
-            <q-item-label class="text-caption">
-              <q-btn unelevated v-if="resultPatient.CF4_STATUS" color="green" size="sm" label="UPDATE CF4"
-                @click="getPatientDetails(resultPatient.PATIENTNO[0])" />
-              <q-btn unelevated v-else color="red" size="sm" label="CREATE CF4"
-                @click="createCF4Confirm(resultPatient)" />
-            </q-item-label>
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </div>
-    <div v-if="resultPatients.length >= 5" class="q-pa-lg col-md-10 page-pos">
-      <q-pagination v-model="page" :min="currentPage" :max="Math.ceil(resultPatients.length / totalPages)" :input="true"
-        input-class="text-orange-10" size="2em" />
     </div>
   </div>
   <q-inner-loading :showing="visible" class="q-mr-xl">
@@ -106,11 +60,6 @@
       </template>
     </q-banner>
   </div>
-  <!-- <div v-if="resultPatients.length >= 5" class="q-pa-lg flex flex-center">
-    <q-pagination v-model="page" :min="currentPage" :max="Math.ceil(resultPatients.length / totalPages)" :input="true"
-      input-class="text-orange-10" size="2em" />
-  </div> -->
-
 </template>
 
 <script>
@@ -148,8 +97,14 @@ export default defineComponent({
   data() {
     return {
       search: {
-        filterPatient: ""
+        filterPatient: "",
+        filterDate: "",
       },
+      withResult: false,
+      lastNameFilterBtn: false,
+      dateAdFilterBtn: true,
+      fByLastNameCaseNo: true,
+      filterByDateAd: false,
       showToggle: false,
       tableView: false,
       cf4Modal: false,
@@ -163,7 +118,8 @@ export default defineComponent({
       pageStatus: "",
       filterMessage: "",
       resultPatients: [],
-      searchHint: CONSTANTS.SEARCH_HINT,
+      searchByLastNameCaseNo: CONSTANTS.SEARCH_BY_LASTNAME_CASENO,
+      searchByDate: CONSTANTS.SEARCH_BY_DATE,
       searchLabel: CONSTANTS.SEARCH_LABEL,
       btnCf4Label: CONSTANTS.BUTTON_CF4_LABEL,
       loadingLabel: CONSTANTS.LOADING_LABEL
@@ -184,29 +140,53 @@ export default defineComponent({
       this.resultPatients = "";
       this.filterMessage = "";
       let data = {
-        filterData: this.search.filterPatient,
+        lastNameCaseNo: this.search.filterPatient,
+        dateAdAndDis: this.search.filterDate,
       };
-      if (data.filterData.length >= 2) {
+      if (data.lastNameCaseNo.length >= 2) {
         this.visible = true;
-        const result = await this.$store.dispatch("patientsCf4/searchPatients", data);
+        const result = await this.$store.dispatch("patientsCf4/searchPatientsByLastNameCaseNo", data);
         result.status === 200 ?
           setTimeout(() => {
             this.resultPatients = this.searchedPatients;
             result.data.length <= 0 ? this.filterMessage = CONSTANTS.FILTER_ERROR : "";
             this.visible = false
             this.loading = false
-            this.showToggle = true
+            this.withResult = true
+          }, 1000)
+          : this.pageStatus = CONSTANTS.API_ERROR;
+      } else {
+        this.visible = true;
+        const result = await this.$store.dispatch("patientsCf4/searchPatientsByDate", data);
+        result.status === 200 ?
+          setTimeout(() => {
+            this.resultPatients = this.searchedPatients;
+            result.data.length <= 0 ? this.filterMessage = CONSTANTS.FILTER_ERROR : "";
+            this.visible = false
+            this.loading = false
           }, 1000)
           : this.pageStatus = CONSTANTS.API_ERROR;
       }
     },
-    async getPatientDetails(patientNo) {
-      await this.$router.push({ path: "patient_cf4", query: { pNo: patientNo } });
+    async getPatientDetails(dataNo) {
+      await this.$router.push({ path: "patient_cf4", query: { pNo: dataNo } });
     },
     createCF4Confirm(data) {
       this.cf4Modal = true
       this.dialogTitle = "CREATE PATIENT CF4";
       this.patientInfo = data
+    },
+    dateAdFilter() {
+      this.filterByDateAd = true
+      this.fByLastNameCaseNo = false
+      this.dateAdFilterBtn = false
+      this.lastNameFilterBtn = true
+    },
+    lastNameCaseNoFilter() {
+      this.filterByDateAd = false
+      this.fByLastNameCaseNo = true
+      this.dateAdFilterBtn = true
+      this.lastNameFilterBtn = false
     },
     closeCF4ConfirmDialog(data) {
       this.cf4Modal = false
@@ -270,8 +250,16 @@ const columns = [
 const loading = ref(true)
 </script>
 <style scoped>
-.q-input {
-  width: 80em
+.q-f-caseno {
+  width: 150em
+}
+
+.q-f-dateAd {
+  width: 25em
+}
+
+.q-f-dateDis {
+  width: 25em
 }
 
 .container-pos {

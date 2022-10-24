@@ -231,31 +231,6 @@ export default defineComponent({
     })
   },
 
-  // watch: {
-  //   vData: {
-  //     handler(val) {
-  //       if (val) {
-  //         console.log('val: ', val)
-  //         this.projects.title = val.title
-  //         this.projects.user_code = val.user_code
-  //         this.projects.project_description = val.project_description
-  //         this.projects.project_status = val.project_status
-  //         this.projects.author = val.author
-  //         this.projects.assigned_by = val.assigned_by
-  //       } else {
-  //         this.projects.title = ''
-  //         this.projects.user_code = ''
-  //         this.projects.project_description = ''
-  //         this.projects.project_status = ''
-  //         this.projects.author = ''
-  //         this.projects.assigned_by = ''
-  //       }
-  //     },
-  //     immediate: true
-  //   }
-
-  // },
-
   methods: {
     submitForm() {
       console.log('action: ', this.title)

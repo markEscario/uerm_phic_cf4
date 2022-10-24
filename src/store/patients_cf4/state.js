@@ -3,7 +3,7 @@ export default function () {
   const sessionUser = SessionStorage.getItem('userData')
   return {
     // http://10.107.0.11:8080
-    apiUrl: 'http://10.107.0.11:3000/cf4_api',
+    apiUrl: 'http://localhost:3000/cf4_api',
     users: [],
     patients: [],
     searchedPatients: [],
@@ -11,6 +11,7 @@ export default function () {
     cf4PatientData: {},
     cf4ReasonForAdmission: {},
     cf4CourseInTheWard: {},
+    cf4OutComeOfTreatment: {},
     patientDiagnosis: [],
     patientHistories: [],
     pertinentPastMedicalHistories: [],
@@ -21,6 +22,9 @@ export default function () {
     registerResponse: '',
     loginResponse: '',
     connectionStatus: '',
-    submitStatus: ''
+    submitStatus: '',
+    pDataNo: ''
   }
 }
+// PROCESS ENV
+// DATE UTILS
